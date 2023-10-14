@@ -4,19 +4,34 @@ import { FactionColor } from "../../models/game.model.ts";
 import * as TWEEN from "@tweenjs/tween.js";
 import { Text } from "@react-three/drei";
 import { Object3DProps, useFrame } from "@react-three/fiber";
+import { useDispatch } from "react-redux";
+import { toggleSelectedPlanetId } from "../../redux/game/game.slice.tsx";
 
 interface PlanetProps extends Object3DProps {
   armyCount: number;
   faction: number;
+  planetId: string;
+  selected: boolean;
 }
 
 const NEUTRAL_COLOR = new Color(0x888888);
 
-export const Planet: FC<PlanetProps> = ({ armyCount, faction, ...props }) => {
+export const Planet: FC<PlanetProps> = ({
+  armyCount,
+  faction,
+  planetId,
+  selected,
+  ...props
+}) => {
+  const dispatch = useDispatch();
   const [transition, setTransition] =
     useState<TWEEN.Tween<{ r: number; g: number; b: number }>>();
   const materialRef = useRef<MeshBasicMaterial>(new MeshBasicMaterial());
   const textRef = useRef<Object3D>(new Object3D());
+
+  const handleClick = () => {
+    dispatch(toggleSelectedPlanetId(planetId));
+  };
 
   useEffect(() => {
     if (transition) {
@@ -39,16 +54,20 @@ export const Planet: FC<PlanetProps> = ({ armyCount, faction, ...props }) => {
 
   return (
     <object3D {...props} scale={0.85}>
-      <mesh>
+      <mesh onClick={handleClick}>
         <sphereGeometry args={[0.975, 32, 32]} />
-        <meshBasicMaterial color="black" />
+        <meshBasicMaterial color={selected ? "white" : "black"} />
       </mesh>
       <mesh>
         <sphereGeometry args={[1, 32, 32]} />
         <meshBasicMaterial ref={materialRef} color={NEUTRAL_COLOR} wireframe />
       </mesh>
       <object3D ref={textRef} anchorX="center" anchorY="middle">
-        <Text position={[0, 0, 1]} scale={0.5}>
+        <Text
+          color={selected ? "black" : "white"}
+          position={[0, 0, 1]}
+          scale={0.5}
+        >
           {armyCount}
         </Text>
       </object3D>

@@ -5,6 +5,8 @@ import { TextureLoader } from "three/src/loaders/TextureLoader";
 import background from "./holodeck-pattern.jpg";
 import * as TWEEN from "@tweenjs/tween.js";
 import { VRButton, XR, Controllers, Hands } from "@react-three/xr";
+import store from "../src/redux/store.tsx";
+import { Provider } from 'react-redux';
 
 const Environment = ({ children }) => {
   const map = useLoader(TextureLoader, background);
@@ -15,7 +17,7 @@ const Environment = ({ children }) => {
 
   return (
     <XR>
-      <Hands  />
+      <Hands />
       <Controllers />
       <OrbitControls />
       <ambientLight intensity={0.5} />
@@ -39,10 +41,12 @@ export const StoryBookCanvasWrapper = ({ children }) => {
         left: 0,
       }}
     >
-      <VRButton />
-      <Canvas>
-        <Environment>{children}</Environment>
-      </Canvas>
+      <Provider store={store}>
+        <VRButton />
+        <Canvas>
+          <Environment>{children}</Environment>
+        </Canvas>
+      </Provider>
     </div>
   );
 };

@@ -8,3 +8,17 @@ export const FactionColor = {
   5: new Color("#ff00ff"),
   6: new Color("#00ffff"),
 };
+
+export interface ArmyMovement {
+  from: string;
+  to: string;
+  armyCount: number;
+}
+
+export interface GalaxyPlanet {
+  id: string;
+  armyCount: number;
+  faction: number;
+  x: number;
+  y: number;
+}

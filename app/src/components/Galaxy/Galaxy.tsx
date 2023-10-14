@@ -1,25 +1,27 @@
 import { FC } from "react";
 import { Planet } from "../Planet/Planet.tsx";
+import {
+  selectPlanets,
+  selectSelectedPlanetId,
+} from "../../redux/game/game.selectors.tsx";
+import { useSelector } from "react-redux";
 
-interface GalaxyPlanet {
-  id: string;
-  armyCount: number;
-  faction: number;
-  x: number;
-  y: number;
-}
+export const Galaxy: FC = () => {
+  const planets = useSelector(selectPlanets);
+  const selectedPlanetId = useSelector(selectSelectedPlanetId);
 
-interface GalaxyProps {
-  planets: GalaxyPlanet[];
-}
-
-export const Galaxy: FC<GalaxyProps> = ({ planets }) => {
   return planets.map(({ id, armyCount, faction, x, y }) => (
     <object3D
       key={id}
       rotation={[(Math.PI / 180) * (y - 3) * 10, (Math.PI / 180) * -x * 10, 0]}
     >
-      <Planet armyCount={armyCount} faction={faction} position={[0, 0, -10]} />
+      <Planet
+        selected={selectedPlanetId === id}
+        armyCount={armyCount}
+        faction={faction}
+        planetId={id}
+        position={[0, 0, -10]}
+      />
     </object3D>
   ));
 };
