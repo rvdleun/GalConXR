@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "prettier": "prettier src -w",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006 --no-open",
     "build-storybook": "storybook build"
@@ -14,6 +15,7 @@
   "dependencies": {
     "@react-three/drei": "^9.88.2",
     "@react-three/fiber": "^8.14.5",
+    "@react-three/xr": "^5.7.1",
     "@tweenjs/tween.js": "^21.0.0",
     "@types/three": "^0.157.0",
     "prettier": "^3.0.3",
