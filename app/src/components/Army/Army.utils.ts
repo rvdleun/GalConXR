@@ -4,6 +4,7 @@ export interface ArmyUnit {
     size: number;
     x: number;
     y: number;
+    z: number;
 }
 
 export const generateArmyUnits = (armySize: number): ArmyUnit[] => {
@@ -13,8 +14,9 @@ export const generateArmyUnits = (armySize: number): ArmyUnit[] => {
 
         armyUnits.push({
             size,
-            x: 0,
-            y: 0,
+            x: -1 + (Math.random() * 2),
+            y: -1 + (Math.random() * 2),
+            z: armyUnits.length * -4
         });
         armySize-=size;
     }

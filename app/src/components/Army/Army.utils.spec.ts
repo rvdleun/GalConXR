@@ -1,7 +1,7 @@
 import { generateArmyUnits } from './Army.utils.ts';
 
 describe('Army utils', () => {
-    it('should be able to form a correct line of Army Units', () => {
+    it('should be able to form a correct line of ArmyUnit Units', () => {
         expect(generateArmyUnits(3).map(unit => unit.size)).toEqual([1, 1, 1]);
         expect(generateArmyUnits(5).map(unit => unit.size)).toEqual([5]);
         expect(generateArmyUnits(8).map(unit => unit.size)).toEqual([5, 1, 1, 1]);

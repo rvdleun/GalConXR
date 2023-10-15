@@ -1,58 +1,26 @@
-import { Object3DProps } from '@react-three/fiber';
-import { FC, useEffect, useRef, useState } from 'react';
+import { ArmyUnit } from '../ArmyUnit/ArmyUnit.tsx';
+import { FC, useEffect, useState } from 'react';
+import { GroupProps } from '@react-three/fiber';
+import { generateArmyUnits } from './Army.utils.ts';
 
-import { Gltf } from '@react-three/drei';
-import { Mesh, MeshBasicMaterial, Object3D } from 'three';
-import { FactionColor } from '../../models/game.model.ts';
-
-const texturesMap = new Map();
-
-import glb1Src from './models/Army-1.glb';
-import glb5Src from './models/Army-5.glb';
-import glb10Src from './models/Army-10.glb';
-import glb25Src from './models/Army-25.glb';
-
-export const modelsMap = new Map();
-modelsMap.set(25, glb25Src);
-modelsMap.set(10, glb10Src);
-modelsMap.set(5, glb5Src);
-modelsMap.set(1, glb1Src);
-
-interface ArmyProps extends Object3DProps {
+export interface ArmyProps extends GroupProps {
     armyCount: number;
+    end: number;
     faction: number;
+    start: number;
 }
 
-export const Army: FC<ArmyProps> = ({ armyCount, faction, ...props }) => {
-    const glbSrc = modelsMap.get(armyCount) || glb1Src;
-    const ref = useRef<Object3D>(new Object3D());
+export const Army: FC<ArmyProps> = ({ armyCount, end = 0, faction, numberVisible, start = 0, ...props }) => {
+    const [armyUnits, setArmyUnits] = useState<ArmyUnit[]>([])
 
     useEffect(() => {
-        if (!FactionColor[faction]) {
-            return;
-        }
+        setArmyUnits(generateArmyUnits(armyCount));
+        console.log(armyCount);
+    }, [armyCount]);
 
-        if (!texturesMap.has(faction)) {
-            const newTexture = new MeshBasicMaterial();
-            newTexture.color.set(FactionColor[faction]);
-            newTexture.opacity = 0.75;
-            newTexture.transparent = true;
-            texturesMap.set(faction, newTexture);
-        }
+    console.log(start, armyUnits.length - end);
 
-        const texture = texturesMap.get(faction);
-        ref.current.traverse((child) => {
-            if (!(child instanceof Mesh)) {
-                return;
-            }
-
-            child.material = texture;
-        });
-    }, [faction, ref.current]);
-
-    return (
-        <object3D {...props}>
-            <Gltf ref={ref} position={[2, -.2, 1.5]} src={glbSrc} />
-        </object3D>
-    );
+    return <group {...props}>
+        {armyUnits.slice(start, armyUnits.length - end).map((armyUnit, index) => <ArmyUnit key={index} position={[armyUnit.x, armyUnit.y, armyUnit.z]} armyCount={armyUnit.size} faction={faction} />) }
+    </group>
 }
