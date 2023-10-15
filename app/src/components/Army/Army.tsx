@@ -5,9 +5,9 @@ import { generateArmyUnits } from './Army.utils.ts';
 
 export interface ArmyProps extends GroupProps {
     armyCount: number;
-    end: number;
+    end?: number;
     faction: number;
-    start: number;
+    start?: number;
 }
 
 export const Army: FC<ArmyProps> = ({ armyCount, end = 0, faction, numberVisible, start = 0, ...props }) => {

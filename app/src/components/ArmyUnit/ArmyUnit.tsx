@@ -18,12 +18,12 @@ modelsMap.set(10, glb10Src);
 modelsMap.set(5, glb5Src);
 modelsMap.set(1, glb1Src);
 
-interface ArmyProps extends Object3DProps {
+export interface ArmyUnitProps extends Object3DProps {
     armyCount: number;
     faction: number;
 }
 
-export const ArmyUnit: FC<ArmyProps> = ({ armyCount, faction, ...props }) => {
+export const ArmyUnit: FC<ArmyUnitProps> = ({ armyCount, faction, ...props }) => {
     const glbSrc = modelsMap.get(armyCount) || glb1Src;
     const ref = useRef<Object3D>(new Object3D());
 

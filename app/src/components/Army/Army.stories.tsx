@@ -18,7 +18,9 @@ export const Primary: Story = {
     ),
     args: {
         armyCount: 3,
+        end: 0,
         faction: 1,
         numberVisible: 3,
+        start: 0
     },
 };
