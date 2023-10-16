@@ -14,7 +14,7 @@ import {
 import store from "../../redux/store.tsx";
 import {
   selectArmyMovements,
-  selectPlanets,
+  selectPlanets, selectSelectedPlanetId,
 } from "../../redux/game/game.selectors.tsx";
 
 const meta = {
@@ -35,7 +35,7 @@ const planetsData: GalaxyPlanet[] = [
   },
   {
     id: "2",
-    armyCount: 15,
+    armyCount: 10,
     faction: 2,
     x: 5,
     y: 0,
@@ -43,21 +43,25 @@ const planetsData: GalaxyPlanet[] = [
 ];
 determineGalaxyPlanetPositions(planetsData);
 
-const Environment = () => {
+const Environment = ({ startMovement }: { startMovement?: boolean}) => {
   const dispatch = useDispatch();
 
   const armyMovements = useSelector(selectArmyMovements);
   const planets = useSelector(selectPlanets);
+  const selectedPlanetId = useSelector(selectSelectedPlanetId);
 
   useEffect(() => {
     dispatch(reset());
     dispatch(setPlanets(planetsData));
-    dispatch(addArmyMovement({ from: "1", to: "2", armyCount: 16 }));
+
+    if (startMovement) {
+      dispatch(addArmyMovement({ from: "1", to: "2", armyCount: 11 }));
+    }
   }, []);
 
   return (
     <>
-      <Galaxy planets={planets} />
+      <Galaxy planets={planets} selectedPlanetId={selectedPlanetId} />
       <group>
         {armyMovements.map((props) => (
           <ArmyMovement key={props.id} {...props} speed={3} />
@@ -71,8 +75,18 @@ export const Automatic: Story = {
   render: () => (
     <Provider store={store}>
       <StoryBookCanvasWrapper>
-        <Environment />
+        <Environment startMovement />
       </StoryBookCanvasWrapper>
     </Provider>
+  ),
+};
+
+export const RequiresInteraction: Story = {
+  render: () => (
+      <Provider store={store}>
+        <StoryBookCanvasWrapper>
+          <Environment />
+        </StoryBookCanvasWrapper>
+      </Provider>
   ),
 };

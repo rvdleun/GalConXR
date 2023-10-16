@@ -57,6 +57,12 @@ const gameSlice = createSlice({
       }
     },
 
+    removeArmyMovement(state: GameState, action: PayloadAction<number>) {
+      state.armyMovements = state.armyMovements.filter(
+        ({ id }) => id !== action.payload,
+      );
+    },
+
     reset() {
       return { ...initialState };
     },
@@ -79,7 +85,9 @@ const gameSlice = createSlice({
       const fromPlanet = state.planets.find(
         ({ id }) => id === state.selectedPlanetId,
       )!;
-      const armyCount = Math.floor(fromPlanet.armyCount * 0.5);
+      const armyCount = Math.ceil(fromPlanet.armyCount * 0.5);
+      fromPlanet.armyCount-=armyCount;
+
       gameSlice.caseReducers.addArmyMovement(state, {
         payload: {
           from: state.selectedPlanetId!,
@@ -97,6 +105,7 @@ const gameSlice = createSlice({
 export const {
   addArmyMovement,
   landArmies,
+  removeArmyMovement,
   reset,
   setPlanets,
   toggleSelectedPlanetId,

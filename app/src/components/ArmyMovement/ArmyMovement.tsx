@@ -3,7 +3,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import { Group, Vector3 } from "three";
 import { useFrame } from "@react-three/fiber";
 import { useDispatch } from "react-redux";
-import { landArmies } from "../../redux/game/game.slice.tsx";
+import { landArmies, removeArmyMovement } from "../../redux/game/game.slice.tsx";
 import { ArmyUnit } from "../Army/Army.utils.ts";
 
 export interface ArmyMovementProps extends ArmyProps {
@@ -18,6 +18,7 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
   armyCount,
   faction,
   from,
+    id,
   planetId,
   speed = 1,
   to,
@@ -61,6 +62,8 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
       ref.current!.lookAt(destination);
     }
 
+    console.log(distanceLeft);
+
     if (distanceLeft <= 0) {
       const newStart = Math.ceil(-distanceLeft / 4);
 
@@ -74,12 +77,17 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
               planetId,
             }),
           );
-        }
 
-        setStart(newStart);
+          if (newStart === units.length) {
+            dispatch(removeArmyMovement(id));
+          }
+        }
       }
+
+      setStart(newStart);
     }
 
+    console.log(units.length - Math.ceil(distanceTravelled / 4));
     setEnd(units.length - Math.ceil(distanceTravelled / 4));
   });
 

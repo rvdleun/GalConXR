@@ -20,6 +20,12 @@ modelsMap.set(10, glb10Src);
 modelsMap.set(5, glb5Src);
 modelsMap.set(1, glb1Src);
 
+export const scaleMap = new Map();
+scaleMap.set(25, 1);
+scaleMap.set(10, .75);
+scaleMap.set(5, .6);
+scaleMap.set(1, .5);
+
 export interface ArmyUnitProps extends Object3DProps {
   armyCount: number;
   faction: number;
@@ -38,7 +44,7 @@ export const ArmyUnit: FC<ArmyUnitProps> = ({
   useEffect(() => {
     const loadModel = async () => {
       const glbSrc = modelsMap.get(armyCount) || glb1Src;
-      setScale(1 + armyCount / 50);
+      setScale(scaleMap.get(armyCount) || 1);
 
       const model = await loader.loadAsync(glbSrc);
 
