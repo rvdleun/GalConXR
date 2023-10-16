@@ -19,6 +19,7 @@ export interface GalaxyPlanet {
   id: string;
   armyCount: number;
   faction: number;
+  position?: [number, number, number];
   x: number;
   y: number;
 }

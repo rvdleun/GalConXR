@@ -5,6 +5,7 @@ import { GalaxyPlanet } from "../../models/game.model.ts";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { setPlanets } from "../../redux/game/game.slice.tsx";
+import { determineGalaxyPlanetPositions } from "./Galaxy.utils.ts";
 
 const meta = {
   title: "Component/Galaxy",
@@ -17,6 +18,9 @@ type Story = StoryObj<typeof meta>;
 const Environment = ({ planets }: { planets: GalaxyPlanet[] }) => {
   const dispatch = useDispatch();
 
+  determineGalaxyPlanetPositions(planets);
+  console.log(planets);
+  
   useEffect(() => {
     dispatch(setPlanets(planets));
   }, []);
@@ -24,7 +28,7 @@ const Environment = ({ planets }: { planets: GalaxyPlanet[] }) => {
   return <Galaxy />;
 };
 
-const render = ({ planets }) => (
+const render = ({ planets }: { planets: GalaxyPlanet[]}) => (
   <StoryBookCanvasWrapper>
     <Environment planets={planets} />
   </StoryBookCanvasWrapper>
