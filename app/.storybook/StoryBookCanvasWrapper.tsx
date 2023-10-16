@@ -31,6 +31,10 @@ const Environment: FC<PropsWithChildren> = ({ children }) => {
   );
 };
 
+export const StoryBookCanvasWrapperWithStore: FC<PropsWithChildren> = ({ children }) => {
+  return <Provider store={store}><StoryBookCanvasWrapper>{children }</StoryBookCanvasWrapper></Provider>
+}
+
 export const StoryBookCanvasWrapper: FC<PropsWithChildren> = ({ children }) => {
   const [renderChildren, setRenderChildren] = useState(true);
 
