@@ -7,8 +7,10 @@ import * as TWEEN from "@tweenjs/tween.js";
 import { VRButton, XR, Controllers, Hands } from "@react-three/xr";
 import store from "../src/redux/store.tsx";
 import { Provider } from 'react-redux';
+import { FC, PropsWithChildren, useState } from "react";
+import { configureStore } from "@reduxjs/toolkit";
 
-const Environment = ({ children }) => {
+const Environment: FC<PropsWithChildren> = ({ children }) => {
   const map = useLoader(TextureLoader, background);
 
   useFrame(() => {
@@ -30,7 +32,14 @@ const Environment = ({ children }) => {
   );
 };
 
-export const StoryBookCanvasWrapper = ({ children }) => {
+export const StoryBookCanvasWrapper: FC<PropsWithChildren> = ({ children }) => {
+  const [renderChildren, setRenderChildren] = useState(true);
+
+  const handleResetClick = () => {
+    setRenderChildren(false);
+    setTimeout(() => setRenderChildren(true), 10);
+  }
+
   return (
     <div
       style={{
@@ -41,12 +50,13 @@ export const StoryBookCanvasWrapper = ({ children }) => {
         left: 0,
       }}
     >
-      <Provider store={store}>
+      <Provider store={mockStore}>
         <VRButton />
         <Canvas>
-          <Environment>{children}</Environment>
+          <Environment>{renderChildren && children}</Environment>
         </Canvas>
       </Provider>
+      <button onClick={handleResetClick} style={{ position: "fixed", bottom: "10px", right: "10px" }}>Reset</button>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { FC, useEffect, useRef, useState } from "react";
 
 import { Mesh, MeshBasicMaterial, Object3D } from "three";
 import { FactionColor } from "../../models/game.model.ts";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 const loader = new GLTFLoader();
 
@@ -49,26 +49,27 @@ export const ArmyUnit: FC<ArmyUnitProps> = ({
         newTexture.transparent = true;
         texturesMap.set(faction, newTexture);
       }
-  
+
       const texture = texturesMap.get(faction);
       model.scene.traverse((child) => {
         if (!(child instanceof Mesh)) {
           return;
         }
-  
+
         child.material = texture;
       });
 
       setMesh(model.scene);
-
-    }
+    };
 
     loadModel();
   }, [armyCount, faction, ref.current]);
 
   return (
     <object3D {...props}>
-      { mesh && <primitive object={mesh} position={[2, -0.2, 1.5]} scale={scale} /> }
+      {mesh && (
+        <primitive object={mesh} position={[2, -0.2, 1.5]} scale={scale} />
+      )}
     </object3D>
   );
 };

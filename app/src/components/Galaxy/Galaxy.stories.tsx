@@ -19,16 +19,15 @@ const Environment = ({ planets }: { planets: GalaxyPlanet[] }) => {
   const dispatch = useDispatch();
 
   determineGalaxyPlanetPositions(planets);
-  console.log(planets);
-  
+
   useEffect(() => {
-    dispatch(setPlanets(planets));
+    dispatch(setPlanets([...planets]));
   }, []);
 
   return <Galaxy />;
 };
 
-const render = ({ planets }: { planets: GalaxyPlanet[]}) => (
+const render = ({ planets }: { planets: GalaxyPlanet[] }) => (
   <StoryBookCanvasWrapper>
     <Environment planets={planets} />
   </StoryBookCanvasWrapper>
