@@ -1,9 +1,11 @@
 import { Object3DProps } from "@react-three/fiber";
 import { FC, useEffect, useRef, useState } from "react";
 
-import { Gltf } from "@react-three/drei";
 import { Mesh, MeshBasicMaterial, Object3D } from "three";
 import { FactionColor } from "../../models/game.model.ts";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"
+
+const loader = new GLTFLoader();
 
 const texturesMap = new Map();
 
@@ -28,41 +30,45 @@ export const ArmyUnit: FC<ArmyUnitProps> = ({
   faction,
   ...props
 }) => {
+  const [mesh, setMesh] = useState<Object3D>();
   const [scale, setScale] = useState<number>(1);
 
-  const glbSrc = modelsMap.get(armyCount) || glb1Src;
   const ref = useRef<Object3D>(new Object3D());
 
   useEffect(() => {
-    if (!FactionColor[faction]) {
-      return;
-    }
+    const loadModel = async () => {
+      const glbSrc = modelsMap.get(armyCount) || glb1Src;
+      setScale(1 + armyCount / 50);
 
-    if (!texturesMap.has(faction)) {
-      const newTexture = new MeshBasicMaterial();
-      newTexture.color.set(FactionColor[faction]);
-      newTexture.opacity = 0.75;
-      newTexture.transparent = true;
-      texturesMap.set(faction, newTexture);
-    }
+      const model = await loader.loadAsync(glbSrc);
 
-    const texture = texturesMap.get(faction);
-    ref.current.traverse((child) => {
-      if (!(child instanceof Mesh)) {
-        return;
+      if (!texturesMap.has(faction)) {
+        const newTexture = new MeshBasicMaterial();
+        newTexture.color.set(FactionColor[faction]);
+        newTexture.opacity = 0.75;
+        newTexture.transparent = true;
+        texturesMap.set(faction, newTexture);
       }
+  
+      const texture = texturesMap.get(faction);
+      model.scene.traverse((child) => {
+        if (!(child instanceof Mesh)) {
+          return;
+        }
+  
+        child.material = texture;
+      });
 
-      child.material = texture;
-    });
-  }, [faction, ref.current]);
+      setMesh(model.scene);
 
-  useEffect(() => {
-    setScale(1 + armyCount / 50);
-  }, [armyCount]);
+    }
+
+    loadModel();
+  }, [armyCount, faction, ref.current]);
 
   return (
     <object3D {...props}>
-      <Gltf ref={ref} position={[2, -0.2, 1.5]} scale={scale} src={glbSrc} />
+      { mesh && <primitive object={mesh} position={[2, -0.2, 1.5]} scale={scale} /> }
     </object3D>
   );
 };
