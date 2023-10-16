@@ -8,7 +8,6 @@ import { VRButton, XR, Controllers, Hands } from "@react-three/xr";
 import store from "../src/redux/store.tsx";
 import { Provider } from 'react-redux';
 import { FC, PropsWithChildren, useState } from "react";
-import { configureStore } from "@reduxjs/toolkit";
 
 const Environment: FC<PropsWithChildren> = ({ children }) => {
   const map = useLoader(TextureLoader, background);
@@ -50,7 +49,7 @@ export const StoryBookCanvasWrapper: FC<PropsWithChildren> = ({ children }) => {
         left: 0,
       }}
     >
-      <Provider store={mockStore}>
+      <Provider store={store}>
         <VRButton />
         <Canvas>
           <Environment>{renderChildren && children}</Environment>

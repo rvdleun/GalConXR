@@ -2,9 +2,6 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { StoryBookCanvasWrapper } from "../../../.storybook/StoryBookCanvasWrapper.tsx";
 import { Galaxy } from "./Galaxy.tsx";
 import { GalaxyPlanet } from "../../models/game.model.ts";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { setPlanets } from "../../redux/game/game.slice.tsx";
 import { determineGalaxyPlanetPositions } from "./Galaxy.utils.ts";
 
 const meta = {
@@ -16,15 +13,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Environment = ({ planets }: { planets: GalaxyPlanet[] }) => {
-  const dispatch = useDispatch();
-
   determineGalaxyPlanetPositions(planets);
 
-  useEffect(() => {
-    dispatch(setPlanets([...planets]));
-  }, []);
-
-  return <Galaxy />;
+  return <Galaxy planets={planets} />;
 };
 
 const render = ({ planets }: { planets: GalaxyPlanet[] }) => (

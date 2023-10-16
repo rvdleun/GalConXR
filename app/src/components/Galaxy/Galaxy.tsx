@@ -1,15 +1,13 @@
 import { FC } from "react";
 import { Planet } from "../Planet/Planet.tsx";
-import {
-  selectPlanets,
-  selectSelectedPlanetId,
-} from "../../redux/game/game.selectors.tsx";
-import { useSelector } from "react-redux";
+import { GalaxyPlanet } from "../../models/game.model.ts";
 
-export const Galaxy: FC = () => {
-  const planets = useSelector(selectPlanets);
-  const selectedPlanetId = useSelector(selectSelectedPlanetId);
+export interface GalaxyProps {
+  planets: GalaxyPlanet[];
+  selectedPlanetId?: string;
+}
 
+export const Galaxy: FC<GalaxyProps> = ({ planets, selectedPlanetId }) => {
   return planets.map(({ id, armyCount, faction, position }) => (
     <Planet
       selected={selectedPlanetId === id}
