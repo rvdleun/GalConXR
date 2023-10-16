@@ -10,6 +10,7 @@ export interface GalaxyProps {
 export const Galaxy: FC<GalaxyProps> = ({ planets, selectedPlanetId }) => {
   return planets.map(({ id, armyCount, faction, position }) => (
     <Planet
+      key={id}
       selected={selectedPlanetId === id}
       armyCount={armyCount}
       faction={faction}

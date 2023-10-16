@@ -1,13 +1,14 @@
-import { ArmyUnit } from "../ArmyUnit/ArmyUnit.tsx";
+import { ArmyUnit as ArmyUnitData } from "./Army.utils.ts";
 import { FC, useEffect, useState } from "react";
 import { GroupProps } from "@react-three/fiber";
 import { generateArmyUnits } from "./Army.utils.ts";
+import { ArmyUnit } from "../ArmyUnit/ArmyUnit.tsx";
 
 export interface ArmyProps extends GroupProps {
   armyCount: number;
   end?: number;
   faction: number;
-  onUnitsCount?: (count: number) => void;
+  onUnits?: (units: ArmyUnitData[]) => void;
   start?: number;
 }
 
@@ -15,17 +16,16 @@ export const Army: FC<ArmyProps> = ({
   armyCount,
   end = 0,
   faction,
-  numberVisible,
-  onUnitsCount,
+  onUnits,
   start = 0,
   ...props
 }) => {
-  const [armyUnits, setArmyUnits] = useState<ArmyUnit[]>([]);
+  const [armyUnits, setArmyUnits] = useState<ArmyUnitData[]>([]);
 
   useEffect(() => {
     const newArmyUnits = generateArmyUnits(armyCount);
     setArmyUnits(newArmyUnits);
-    onUnitsCount && onUnitsCount(newArmyUnits.length);
+    onUnits && onUnits(newArmyUnits);
   }, [armyCount]);
 
   return (
