@@ -1,4 +1,4 @@
-import { ArmyUnit as ArmyUnitData } from "../Army/Army.utils.tsx";
+import { ArmyUnit as ArmyUnitData } from "./Army.utils.ts";
 import { FC, useEffect, useState } from "react";
 import { GroupProps } from "@react-three/fiber";
 import { generateArmyUnits } from "./Army.utils.ts";

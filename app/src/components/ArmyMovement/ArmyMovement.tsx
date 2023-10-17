@@ -3,7 +3,8 @@ import { FC, useEffect, useRef, useState } from "react";
 import { Group, Vector3 } from "three";
 import { useFrame } from "@react-three/fiber";
 import { useDispatch } from "react-redux";
-import { landArmies } from "../../redux/game/game.slice.tsx";
+import { landArmies, removeArmyMovement } from "../../redux/game/game.slice.tsx";
+import { ArmyUnit } from "../Army/Army.utils.ts";
 
 export interface ArmyMovementProps extends ArmyProps {
   id: number;
@@ -17,6 +18,7 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
   armyCount,
   faction,
   from,
+    id,
   planetId,
   speed = 1,
   to,
@@ -28,10 +30,9 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
   const [distanceLeft, setDistanceLeft] = useState<number>(-1);
   const [distanceTravelled, setDistanceTravelled] = useState<number>(0);
   const [end, setEnd] = useState<number>(0);
-  const [nextUpdate, setNextUpdate] = useState<number>(0);
   const [position, setPosition] = useState<Vector3>();
   const [start, setStart] = useState<number>(0);
-  const [units, setUnits] = useState<number>(0);
+  const [units, setUnits] = useState<ArmyUnit[]>([]);
 
   useEffect(() => {
     const destination = new Vector3();
@@ -61,19 +62,14 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
       ref.current!.lookAt(destination);
     }
 
-    setNextUpdate(nextUpdate - delta);
-    if (nextUpdate > 0) {
-      return;
-    }
+    console.log(distanceLeft);
 
-    setNextUpdate(0.5);
     if (distanceLeft <= 0) {
       const newStart = Math.ceil(-distanceLeft / 4);
 
       if (planetId && newStart !== start) {
         const toLand = units[newStart - 1];
         if (toLand) {
-          console.log(ref.current);
           dispatch(
             landArmies({
               armyCount: toLand.size,
@@ -81,12 +77,18 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
               planetId,
             }),
           );
-        }
 
-        setStart(newStart);
+          if (newStart === units.length) {
+            dispatch(removeArmyMovement(id));
+          }
+        }
       }
+
+      setStart(newStart);
     }
-    setEnd(setUnits.length - Math.ceil(distanceTravelled / 4));
+
+    console.log(units.length - Math.ceil(distanceTravelled / 4));
+    setEnd(units.length - Math.ceil(distanceTravelled / 4));
   });
 
   if (!position) {
