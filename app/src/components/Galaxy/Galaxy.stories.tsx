@@ -74,3 +74,39 @@ export const LargeGalaxy: Story = {
     ],
   },
 };
+
+const xOffset = 10;
+export const ClusteredGalaxy: Story = {
+  render,
+  args: {
+    planets: [
+      { id: "1", x: xOffset + -1, y: 2, armyCount: 10, faction: 1 },
+      { id: "1", x: xOffset + 0, y: 2, armyCount: 10, faction: 1 },
+      { id: "1", x: xOffset + 1, y: 2, armyCount: 10, faction: 1 },
+      { id: "1", x: xOffset + -1, y: 3, armyCount: 10, faction: 1 },
+      { id: "1", x: xOffset + 0, y: 3, armyCount: 10, faction: 1 },
+      { id: "1", x: xOffset + 1, y: 3, armyCount: 10, faction: 1 },
+      { id: "1", x: xOffset + -1, y: 4, armyCount: 10, faction: 1 },
+      { id: "1", x: xOffset + 0, y: 4, armyCount: 10, faction: 1 },
+      { id: "1", x: xOffset + 1, y: 4, armyCount: 10, faction: 1 },
+    ],
+  },
+};
+
+let allPlanets = [];
+for(let x = 0; x < 36; x++) {
+  for(let y = 0; y < 6; y++) {
+    allPlanets.push({
+      id: `${x}-${y}`,
+      x,
+      y,
+      armyCount: 10,
+      faction: 0
+    })
+  }
+}export const FilledGalaxy: Story = {
+  render,
+  args: {
+    planets: allPlanets,
+  },
+};

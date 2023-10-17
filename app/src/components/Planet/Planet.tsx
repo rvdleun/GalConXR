@@ -53,7 +53,7 @@ export const Planet: FC<PlanetProps> = ({
   });
 
   return (
-    <object3D {...props} scale={0.85}>
+    <object3D {...props} scale={0.75}>
       <mesh onClick={handleClick}>
         <sphereGeometry args={[0.975, 32, 32]} />
         <meshBasicMaterial color={selected ? "white" : "black"} />

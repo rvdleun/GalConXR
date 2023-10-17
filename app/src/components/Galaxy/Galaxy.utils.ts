@@ -17,10 +17,11 @@ export const determineGalaxyPlanetPositions = (
   planets.forEach((planet) => {
     const { x, y } = planet;
     center.rotation.fromArray([
-      (Math.PI / 180) * (y - 3) * 10,
+      0, // (Math.PI / 180) * (y - 3) * 30,
       (Math.PI / 180) * -x * 10,
       0,
     ]);
+    center.position.setY((y * 2) - 4);
 
     planetPosition.getWorldPosition(worldPosition);
     planet.position = worldPosition.toArray();
