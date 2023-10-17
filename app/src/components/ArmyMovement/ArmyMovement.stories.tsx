@@ -14,19 +14,19 @@ export const Primary: Story = {
   render: ({ from, to, ...props }) => (
     <StoryBookCanvasWrapper>
       <mesh position={from} scale={0.5}>
-        <sphereGeometry args={[1, 32, 32]} />
+        <sphereGeometry args={[.1, 32, 32]} />
         <meshBasicMaterial color={0xff0000} />
       </mesh>
       <mesh position={to} scale={0.5}>
-        <sphereGeometry args={[1, 32, 32]} />
+        <sphereGeometry args={[.1, 32, 32]} />
         <meshBasicMaterial color={0x00ff00} />
       </mesh>
-      <ArmyMovement from={from} to={to} speed={5} {...props} />
+      <ArmyMovement from={from} to={to} {...props} />
     </StoryBookCanvasWrapper>
   ),
   args: {
-    from: [-10, 0, -10],
-    to: [10, 0, -10],
+    from: [-.4, 0, -.1],
+    to: [.4, 0, -.1],
     armyCount: 40,
     faction: 1,
   },

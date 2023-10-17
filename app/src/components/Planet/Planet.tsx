@@ -55,8 +55,8 @@ export const Planet: FC<PlanetProps> = ({
 
   return (
     <Interactive onSelect={handleClick}>
-      <object3D {...props} scale={0.75}>
-        <mesh>
+      <object3D {...props} scale={0.075}>
+        <mesh onClick={handleClick}>
           <sphereGeometry args={[0.975, 32, 32]} />
           <meshBasicMaterial color={selected ? "white" : "black"} />
         </mesh>

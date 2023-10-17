@@ -14,9 +14,9 @@ export const generateArmyUnits = (armySize: number): ArmyUnit[] => {
 
     armyUnits.push({
       size,
-      x: -1 + Math.random() * 2,
-      y: -1 + Math.random() * 2,
-      z: armyUnits.length * -4,
+      x: 0,
+      y: 0,
+      z: armyUnits.length * -.4,
     });
     armySize -= size;
   }

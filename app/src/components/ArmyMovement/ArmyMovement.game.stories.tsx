@@ -75,7 +75,7 @@ const Environment = ({
       <Galaxy planets={planets} selectedPlanetId={selectedPlanetId} />
       <group>
         {armyMovements.map((props) => (
-          <ArmyMovement key={props.id} {...props} speed={3} />
+          <ArmyMovement key={props.id} {...props} />
         ))}
       </group>
     </StoryBookCanvasWrapper>

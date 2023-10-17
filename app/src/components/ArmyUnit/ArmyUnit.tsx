@@ -21,10 +21,10 @@ modelsMap.set(5, glb5Src);
 modelsMap.set(1, glb1Src);
 
 export const scaleMap = new Map();
-scaleMap.set(25, 1);
-scaleMap.set(10, 0.75);
-scaleMap.set(5, 0.6);
-scaleMap.set(1, 0.5);
+scaleMap.set(25, .1);
+scaleMap.set(10, 0.075);
+scaleMap.set(5, 0.06);
+scaleMap.set(1, 0.05);
 
 export interface ArmyUnitProps extends Object3DProps {
   armyCount: number;
