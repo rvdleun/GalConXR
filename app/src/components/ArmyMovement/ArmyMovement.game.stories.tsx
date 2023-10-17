@@ -17,6 +17,7 @@ import {
   selectPlanets,
   selectSelectedPlanetId,
 } from "../../redux/game/game.selectors.tsx";
+import { GalaxySize, generateGalaxy } from "../../utils/galaxy-generator.utils.ts";
 
 const meta = {
   title: "Game/ArmyMovement",
@@ -44,7 +45,7 @@ const planetsData: GalaxyPlanet[] = [
 ];
 determineGalaxyPlanetPositions(planetsData);
 
-const Environment = ({ startMovement }: { startMovement?: boolean }) => {
+const Environment = ({ scenarioPlanets, startMovement }: { scenarioPlanets: GalaxyPlanet[], startMovement?: boolean }) => {
   const dispatch = useDispatch();
 
   const armyMovements = useSelector(selectArmyMovements);
@@ -53,7 +54,7 @@ const Environment = ({ startMovement }: { startMovement?: boolean }) => {
 
   useEffect(() => {
     dispatch(reset());
-    dispatch(setPlanets(planetsData));
+    dispatch(setPlanets(scenarioPlanets));
 
     if (startMovement) {
       dispatch(addArmyMovement({ from: "1", to: "2", armyCount: 11 }));
@@ -75,7 +76,7 @@ const Environment = ({ startMovement }: { startMovement?: boolean }) => {
 export const Automatic: Story = {
   render: () => (
     <Provider store={store}>
-      <Environment startMovement />
+      <Environment scenarioPlanets={planetsData} startMovement />
     </Provider>
   ),
 };
@@ -83,7 +84,18 @@ export const Automatic: Story = {
 export const RequiresInteraction: Story = {
   render: () => (
     <Provider store={store}>
-      <Environment />
+      <Environment scenarioPlanets={planetsData} />
     </Provider>
   ),
 };
+
+export const WithGeneratedGalaxy: Story = {
+  render: () => {
+    const planets = generateGalaxy(GalaxySize.LARGE);
+
+    return <Provider store={store}>
+      <Environment scenarioPlanets={planets} />
+    </Provider>
+  }
+};
+
