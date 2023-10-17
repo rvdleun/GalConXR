@@ -6,6 +6,7 @@ import { Text } from "@react-three/drei";
 import { Object3DProps, useFrame } from "@react-three/fiber";
 import { useDispatch } from "react-redux";
 import { toggleSelectedPlanetId } from "../../redux/game/game.slice.tsx";
+import { Interactive } from "@react-three/xr";
 
 interface PlanetProps extends Object3DProps {
   armyCount: number;
@@ -53,24 +54,30 @@ export const Planet: FC<PlanetProps> = ({
   });
 
   return (
-    <object3D {...props} scale={0.75}>
-      <mesh onClick={handleClick}>
-        <sphereGeometry args={[0.975, 32, 32]} />
-        <meshBasicMaterial color={selected ? "white" : "black"} />
-      </mesh>
-      <mesh>
-        <sphereGeometry args={[1, 32, 32]} />
-        <meshBasicMaterial ref={materialRef} color={NEUTRAL_COLOR} wireframe />
-      </mesh>
-      <object3D ref={textRef} anchorX="center" anchorY="middle">
-        <Text
-          color={selected ? "black" : "white"}
-          position={[0, 0, 1]}
-          scale={0.5}
-        >
-          {armyCount}
-        </Text>
+    <Interactive onSelect={handleClick}>
+      <object3D {...props} scale={0.75}>
+        <mesh>
+          <sphereGeometry args={[0.975, 32, 32]} />
+          <meshBasicMaterial color={selected ? "white" : "black"} />
+        </mesh>
+        <mesh>
+          <sphereGeometry args={[1, 32, 32]} />
+          <meshBasicMaterial
+            ref={materialRef}
+            color={NEUTRAL_COLOR}
+            wireframe
+          />
+        </mesh>
+        <object3D ref={textRef} anchorX="center" anchorY="middle">
+          <Text
+            color={selected ? "black" : "white"}
+            position={[0, 0, 1]}
+            scale={0.5}
+          >
+            {armyCount}
+          </Text>
+        </object3D>
       </object3D>
-    </object3D>
+    </Interactive>
   );
 };

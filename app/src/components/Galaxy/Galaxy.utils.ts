@@ -21,7 +21,7 @@ export const determineGalaxyPlanetPositions = (
       (Math.PI / 180) * -x * 10,
       0,
     ]);
-    center.position.setY((y * 2) - 4);
+    center.position.setY(y * 2 - 4);
 
     planetPosition.getWorldPosition(worldPosition);
     planet.position = worldPosition.toArray();

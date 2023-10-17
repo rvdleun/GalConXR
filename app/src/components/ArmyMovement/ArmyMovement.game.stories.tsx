@@ -17,7 +17,10 @@ import {
   selectPlanets,
   selectSelectedPlanetId,
 } from "../../redux/game/game.selectors.tsx";
-import { GalaxySize, generateGalaxy } from "../../utils/galaxy-generator.utils.ts";
+import {
+  GalaxySize,
+  generateGalaxy,
+} from "../../utils/galaxy-generator.utils.ts";
 
 const meta = {
   title: "Game/ArmyMovement",
@@ -45,7 +48,13 @@ const planetsData: GalaxyPlanet[] = [
 ];
 determineGalaxyPlanetPositions(planetsData);
 
-const Environment = ({ scenarioPlanets, startMovement }: { scenarioPlanets: GalaxyPlanet[], startMovement?: boolean }) => {
+const Environment = ({
+  scenarioPlanets,
+  startMovement,
+}: {
+  scenarioPlanets: GalaxyPlanet[];
+  startMovement?: boolean;
+}) => {
   const dispatch = useDispatch();
 
   const armyMovements = useSelector(selectArmyMovements);
@@ -93,9 +102,13 @@ export const WithGeneratedGalaxy: Story = {
   render: () => {
     const planets = generateGalaxy(GalaxySize.LARGE);
 
-    return <Provider store={store}>
-      <Environment scenarioPlanets={planets} />
-    </Provider>
-  }
-};
+    planets[0].faction = 1;
+    planets[0].armyCount = 50;
 
+    return (
+      <Provider store={store}>
+        <Environment scenarioPlanets={planets} />
+      </Provider>
+    );
+  },
+};

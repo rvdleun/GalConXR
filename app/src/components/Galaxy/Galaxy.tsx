@@ -8,14 +8,18 @@ export interface GalaxyProps {
 }
 
 export const Galaxy: FC<GalaxyProps> = ({ planets, selectedPlanetId }) => {
-  return planets.map(({ id, armyCount, faction, position }) => (
-    <Planet
-      key={id}
-      selected={selectedPlanetId === id}
-      armyCount={armyCount}
-      faction={faction}
-      planetId={id}
-      position={position}
-    />
-  ));
+  return (
+    <object3D scale={0.1}>
+      {planets.map(({ id, armyCount, faction, position }) => (
+        <Planet
+          key={id}
+          selected={selectedPlanetId === id}
+          armyCount={armyCount}
+          faction={faction}
+          planetId={id}
+          position={position}
+        />
+      ))}
+    </object3D>
+  );
 };
