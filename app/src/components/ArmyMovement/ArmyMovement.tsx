@@ -17,13 +17,15 @@ export interface ArmyMovementProps extends ArmyProps {
   to: [number, number, number];
 }
 
+export const ARMY_UNIT_DISTANCE = .25;
+
 export const ArmyMovement: FC<ArmyMovementProps> = ({
   armyCount,
   faction,
   from,
   id,
   planetId,
-  speed = 1,
+  speed = .5,
   to,
 }) => {
   const dispatch = useDispatch();
@@ -33,7 +35,6 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
   const [distanceLeft, setDistanceLeft] = useState<number>(-1);
   const [distanceTravelled, setDistanceTravelled] = useState<number>(0);
   const [end, setEnd] = useState<number>(0);
-  const [position, setPosition] = useState<Vector3>();
   const [start, setStart] = useState<number>(0);
   const [units, setUnits] = useState<ArmyUnit[]>([]);
 
@@ -47,12 +48,13 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
     startPosition.fromArray(from);
 
     setDestination(destination);
-    setPosition(position);
     setDistanceLeft(startPosition.distanceTo(destination));
+
+    ref.current!.position.copy(position);
   }, []);
 
   useFrame((state, delta) => {
-    if (!destination || !position) {
+    if (!destination) {
       return;
     }
 
@@ -66,7 +68,7 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
     }
 
     if (distanceLeft <= 0) {
-      const newStart = Math.ceil(-distanceLeft / 4);
+      const newStart = Math.ceil(-distanceLeft / ARMY_UNIT_DISTANCE);
 
       if (planetId && newStart !== start) {
         const toLand = units[newStart - 1];
@@ -88,16 +90,11 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
       setStart(newStart);
     }
 
-    console.log(units.length - Math.ceil(distanceTravelled / 4));
-    setEnd(units.length - Math.ceil(distanceTravelled / 4));
+    setEnd(units.length - Math.ceil(distanceTravelled / ARMY_UNIT_DISTANCE));
   });
 
-  if (!position) {
-    return null;
-  }
-
   return (
-    <group ref={ref} position={position}>
+    <group ref={ref}>
       <Army
         armyCount={armyCount}
         end={end}

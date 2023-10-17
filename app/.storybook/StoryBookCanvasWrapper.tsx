@@ -20,7 +20,7 @@ const Environment: FC<PropsWithChildren> = ({ children }) => {
     <XR>
       <Hands />
       <Controllers />
-      <OrbitControls />
+      <OrbitControls minDistance={.25} maxDistance={.25} />
       <ambientLight intensity={0.5} />
       <mesh scale={[1050, 1050, 1050]}>
         <boxGeometry />

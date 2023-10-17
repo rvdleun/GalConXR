@@ -1,4 +1,6 @@
-const sizes = [25, 10, 5, 1];
+import { ARMY_UNIT_DISTANCE } from '../ArmyMovement/ArmyMovement.tsx';
+
+const sizes = [5, 1];
 
 export interface ArmyUnit {
   size: number;
@@ -14,9 +16,9 @@ export const generateArmyUnits = (armySize: number): ArmyUnit[] => {
 
     armyUnits.push({
       size,
-      x: -1 + Math.random() * 2,
-      y: -1 + Math.random() * 2,
-      z: armyUnits.length * -4,
+      x: 0,
+      y: 0,
+      z: armyUnits.length * -ARMY_UNIT_DISTANCE,
     });
     armySize -= size;
   }
