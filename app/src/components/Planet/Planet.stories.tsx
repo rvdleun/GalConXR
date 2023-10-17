@@ -3,7 +3,7 @@ import { StoryBookCanvasWrapper } from "../../../.storybook/StoryBookCanvasWrapp
 import { Planet } from "./Planet.tsx";
 
 const meta = {
-  title: "Component/Planet",
+  title: "Components/Planet",
   component: Planet,
 } satisfies Meta<typeof Planet>;
 

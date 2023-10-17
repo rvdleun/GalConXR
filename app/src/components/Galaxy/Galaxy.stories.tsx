@@ -5,7 +5,7 @@ import { GalaxyPlanet } from "../../models/game.model.ts";
 import { determineGalaxyPlanetPositions } from "./Galaxy.utils.ts";
 
 const meta = {
-  title: "Component/Galaxy",
+  title: "Components/Galaxy",
   component: Galaxy,
 } satisfies Meta<typeof Galaxy>;
 

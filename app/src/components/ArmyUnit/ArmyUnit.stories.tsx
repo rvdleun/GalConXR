@@ -3,7 +3,7 @@ import { StoryBookCanvasWrapper } from "../../../.storybook/StoryBookCanvasWrapp
 import { ArmyUnit } from "./ArmyUnit.tsx";
 
 const meta = {
-  title: "Component/ArmyUnit",
+  title: "Components/ArmyUnit",
   component: ArmyUnit,
 } satisfies Meta<typeof ArmyUnit>;
 

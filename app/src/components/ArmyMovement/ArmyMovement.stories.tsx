@@ -3,7 +3,7 @@ import { StoryBookCanvasWrapper } from "../../../.storybook/StoryBookCanvasWrapp
 import { ArmyMovement } from "./ArmyMovement.tsx";
 
 const meta = {
-  title: "Component/ArmyMovement",
+  title: "Components/ArmyMovement",
   component: ArmyMovement,
 } satisfies Meta<typeof ArmyMovement>;
 
@@ -13,11 +13,11 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   render: ({ from, to, ...props }) => (
     <StoryBookCanvasWrapper>
-      <mesh position={from}>
+      <mesh position={from} scale={0.5}>
         <sphereGeometry args={[1, 32, 32]} />
         <meshBasicMaterial color={0xff0000} />
       </mesh>
-      <mesh position={to}>
+      <mesh position={to} scale={0.5}>
         <sphereGeometry args={[1, 32, 32]} />
         <meshBasicMaterial color={0x00ff00} />
       </mesh>

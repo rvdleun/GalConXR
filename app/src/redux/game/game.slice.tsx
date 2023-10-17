@@ -86,7 +86,7 @@ const gameSlice = createSlice({
         ({ id }) => id === state.selectedPlanetId,
       )!;
       const armyCount = Math.ceil(fromPlanet.armyCount * 0.5);
-      fromPlanet.armyCount-=armyCount;
+      fromPlanet.armyCount -= armyCount;
 
       gameSlice.caseReducers.addArmyMovement(state, {
         payload: {

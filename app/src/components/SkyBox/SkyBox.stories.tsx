@@ -3,7 +3,7 @@ import { SkyBox } from "./SkyBox.tsx";
 import { StoryBookCanvasWrapper } from "../../../.storybook/StoryBookCanvasWrapper.tsx";
 
 const meta = {
-  title: "Component/SkyBox",
+  title: "Components/SkyBox",
   component: SkyBox,
 } satisfies Meta<typeof SkyBox>;
 
