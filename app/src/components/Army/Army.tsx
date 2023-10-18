@@ -26,8 +26,6 @@ export const Army: FC<ArmyProps> = ({
     const newArmyUnits = generateArmyUnits(armyCount);
     setArmyUnits(newArmyUnits);
     onUnits && onUnits(newArmyUnits);
-
-    console.log(newArmyUnits);
   }, [armyCount]);
 
   return (
