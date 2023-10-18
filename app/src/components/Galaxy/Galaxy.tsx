@@ -7,7 +7,7 @@ export interface GalaxyProps {
   selectedPlanetId?: string;
 }
 
-export const Galaxy: FC<GalaxyProps> = ({ planets, selectedPlanetId }) => planets.map(({ id, armyCount, faction, position }) => (
+export const Galaxy: FC<GalaxyProps> = ({ planets, selectedPlanetId }) => planets.map(({ id, armyCount, faction, position, scale }) => (
   <Planet
     key={id}
     selected={selectedPlanetId === id}
@@ -15,5 +15,6 @@ export const Galaxy: FC<GalaxyProps> = ({ planets, selectedPlanetId }) => planet
     faction={faction}
     planetId={id}
     position={position}
+    scale={scale}
   />
 ));

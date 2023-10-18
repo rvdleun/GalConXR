@@ -20,6 +20,7 @@ export interface GalaxyPlanet {
   armyCount: number;
   faction: number;
   position?: [number, number, number];
+  scale: number;
   x: number;
   y: number;
 }

@@ -13,6 +13,7 @@ interface PlanetProps extends Object3DProps {
   faction: number;
   planetId: string;
   selected: boolean;
+  scale: number;
 }
 
 const NEUTRAL_COLOR = new Color(0x888888);
@@ -22,6 +23,7 @@ export const Planet: FC<PlanetProps> = ({
   faction,
   planetId,
   selected,
+  scale = 1,
   ...props
 }) => {
   const dispatch = useDispatch();
@@ -55,7 +57,7 @@ export const Planet: FC<PlanetProps> = ({
 
   return (
     <Interactive onSelect={handleClick}>
-      <object3D {...props} scale={0.075}>
+      <object3D {...props} scale={0.075 * scale}>
         <mesh onClick={handleClick}>
           <sphereGeometry args={[0.975, 32, 32]} />
           <meshBasicMaterial color={selected ? "white" : "black"} />
@@ -72,9 +74,9 @@ export const Planet: FC<PlanetProps> = ({
           <Text
             color={selected ? "black" : "white"}
             position={[0, 0, 1]}
-            scale={0.5}
+            scale={0.5 / scale}
           >
-            {armyCount}
+            {Math.floor(armyCount)}
           </Text>
         </object3D>
       </object3D>
