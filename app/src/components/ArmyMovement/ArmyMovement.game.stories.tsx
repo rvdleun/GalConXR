@@ -52,9 +52,11 @@ determineGalaxyPlanetPositions(planetsData);
 
 const Environment = ({
   scenarioPlanets,
+  showMultiple,
   startMovement,
 }: {
   scenarioPlanets: GalaxyPlanet[];
+  showMultiple?: boolean;
   startMovement?: boolean;
 }) => {
   const dispatch = useDispatch();
@@ -69,6 +71,18 @@ const Environment = ({
 
     if (startMovement) {
       dispatch(addArmyMovement({ from: "1", to: "2", armyCount: 11 }));
+    }
+
+    if (showMultiple) {
+      dispatch(addArmyMovement({ from: "1", to: "2", armyCount: 4 }));
+
+      setTimeout(() => {
+        dispatch(addArmyMovement({ from: "1", to: "2", armyCount: 3 }));
+      }, 2000);
+
+      setTimeout(() => {
+        dispatch(addArmyMovement({ from: "1", to: "2", armyCount: 5 }));
+      }, 4000);
     }
   }, []);
 
@@ -88,6 +102,14 @@ export const Automatic: Story = {
   render: () => (
     <Provider store={store}>
       <Environment scenarioPlanets={planetsData} startMovement />
+    </Provider>
+  ),
+};
+
+export const ShowMultiple: Story = {
+  render: () => (
+    <Provider store={store}>
+      <Environment scenarioPlanets={planetsData} showMultiple />
     </Provider>
   ),
 };

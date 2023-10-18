@@ -1,4 +1,5 @@
 import { Color } from "three";
+import { AiMethod } from "../utils/ai-player.utils";
 
 export const FactionColor = {
   1: new Color("#ff0000"),
@@ -8,6 +9,11 @@ export const FactionColor = {
   5: new Color("#ff00ff"),
   6: new Color("#00ffff"),
 };
+
+export enum PlayerType {
+  AI = 'ai',
+  HUMAN = 'human'
+} 
 
 export interface ArmyMovement {
   from: string;
@@ -23,4 +29,10 @@ export interface GalaxyPlanet {
   scale: number;
   x: number;
   y: number;
+}
+
+export interface Player {
+  aiMethod?: AiMethod;
+  faction: number;
+  type: PlayerType;
 }
