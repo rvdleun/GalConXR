@@ -1,0 +1,24 @@
+# GalCon XR
+
+This is the Storybook for GalCon XR. It is a port of the original GalCon game to WebXR, which is available on Steam and mobile devices.
+
+The project is an experiment for me to learn more about React, React-Three-Fiber and React-XR. In particular, I want to see how well I can also utilise other libraries and tools in a 3RF environment, such as Redux, React-Router and Storybook.
+
+As it is, the project is being developed in Storybook first. I'm first building the standalone components, hooks and utilities before I aim to actually fully build the game itself. It's an interesting exercise to see how far I can get in just Storybook. The first days of development have shown that I can actually already get pretty far, and being able to quickly setup different scenarios has proven to be a great boon.3RF
+
+Some components will have a .game.stories.tsx file that will create stories that fall under the Game category. The normal .stories.tsx files are responsible for just testing their respective files.
+
+## Categories
+The stories are split up into the following categories:
+
+### Game
+The stories underneath Game are meant to simulate scenarios that are as close to the final implementation as needed. They will use the Redux store and will dispatch actions.
+
+### Components
+The actual components that make up the game. These are the building blocks of the game. They are meant to be entirely standalone and reusable. They will dispatch Redux action, but won't retrieve any data from the state.
+
+### Hooks
+The hooks are standalone hooks that can be used in the game. They are meant to be easily plugged into a game and be responsible for a single functionality.
+
+### Utils
+The utils are standalone functions that can be used in the game. The stories focus on testing the results of the functions.

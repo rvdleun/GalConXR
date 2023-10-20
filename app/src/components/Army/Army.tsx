@@ -33,7 +33,7 @@ export const Army: FC<ArmyProps> = ({
       {armyUnits.slice(start, armyUnits.length - end).map((armyUnit, index) => (
         <ArmyUnit
           key={index}
-          position={[armyUnit.x, armyUnit.y, armyUnit.z]}
+          position={[armyUnit.x - .1, armyUnit.y, armyUnit.z]}
           armyCount={armyUnit.size}
           faction={faction}
         />
