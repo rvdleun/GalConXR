@@ -101,8 +101,8 @@ const gameSlice = createSlice({
     },
 
     updatePlanetArmyCounts(state: GameState) {
-      state.planets.forEach(planet => planet.armyCount+=planet.scale);
-    }
+      state.planets.forEach((planet) => (planet.armyCount += planet.scale));
+    },
   },
 });
 
@@ -113,7 +113,7 @@ export const {
   reset,
   setPlanets,
   toggleSelectedPlanetId,
-  updatePlanetArmyCounts
+  updatePlanetArmyCounts,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

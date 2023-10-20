@@ -17,7 +17,7 @@ export interface ArmyMovementProps extends ArmyProps {
   to: [number, number, number];
 }
 
-export const ARMY_UNIT_DISTANCE = .25;
+export const ARMY_UNIT_DISTANCE = 0.25;
 
 export const ArmyMovement: FC<ArmyMovementProps> = ({
   armyCount,
@@ -25,7 +25,7 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
   from,
   id,
   planetId,
-  speed = .5,
+  speed = 0.5,
   to,
 }) => {
   const dispatch = useDispatch();

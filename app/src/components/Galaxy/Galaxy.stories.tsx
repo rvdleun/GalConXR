@@ -102,7 +102,7 @@ for (let x = 0; x < 36; x++) {
       y,
       armyCount: 10,
       faction: 0,
-      scale: 1
+      scale: 1,
     });
   }
 }

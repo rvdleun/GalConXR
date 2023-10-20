@@ -21,7 +21,7 @@ modelsMap.set(5, glb5Src);
 modelsMap.set(1, glb1Src);
 
 export const scaleMap = new Map();
-scaleMap.set(25, .1);
+scaleMap.set(25, 0.1);
 scaleMap.set(10, 0.075);
 scaleMap.set(5, 0.06);
 scaleMap.set(1, 0.05);
@@ -74,7 +74,7 @@ export const ArmyUnit: FC<ArmyUnitProps> = ({
   return (
     <object3D {...props}>
       {mesh && (
-        <primitive object={mesh} position={[.2, -0.02, .15]} scale={scale} />
+        <primitive object={mesh} position={[0.2, -0.02, 0.15]} scale={scale} />
       )}
     </object3D>
   );

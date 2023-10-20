@@ -4,13 +4,13 @@ import { useDispatch } from "react-redux";
 import { updatePlanetArmyCounts } from "../redux/game/game.slice";
 
 export const usePlanetUpdate = () => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            dispatch(updatePlanetArmyCounts());
-        }, 1000);
-        
-        return () => clearInterval(interval);
-    }, []);
-}
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatch(updatePlanetArmyCounts());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+};

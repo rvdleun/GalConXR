@@ -37,7 +37,7 @@ const planetsData: GalaxyPlanet[] = [
     faction: 1,
     x: -5,
     y: 0,
-    scale: 1
+    scale: 1,
   },
   {
     id: "2",
@@ -45,7 +45,7 @@ const planetsData: GalaxyPlanet[] = [
     faction: 3,
     x: 5,
     y: 0,
-    scale: 1
+    scale: 1,
   },
 ];
 determineGalaxyPlanetPositions(planetsData);

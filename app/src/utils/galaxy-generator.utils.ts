@@ -36,7 +36,7 @@ export function generateGalaxy(size: GalaxySize): GalaxyPlanet[] {
       y,
       id: attempts.toString(),
       faction: 0,
-      scale: .5 + (Math.random() * .5),
+      scale: 0.5 + Math.random() * 0.5,
       armyCount: 5,
     });
 
