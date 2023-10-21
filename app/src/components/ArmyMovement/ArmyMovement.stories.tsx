@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { StoryBookCanvasWrapper } from "../../../.storybook/StoryBookCanvasWrapper.tsx";
-import { ArmyMovement } from "./ArmyMovement.tsx";
+import { ArmyMovement, ArmyMovementProps } from "./ArmyMovement.tsx";
+import { useEffect, useState } from "react";
 
 const meta = {
   title: "Components/ArmyMovement",

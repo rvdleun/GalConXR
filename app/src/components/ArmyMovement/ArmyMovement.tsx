@@ -40,17 +40,15 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
 
   useEffect(() => {
     const destination = new Vector3();
-    const position = new Vector3();
     const startPosition = new Vector3();
 
     destination.fromArray(to);
-    position.fromArray(from);
     startPosition.fromArray(from);
 
     setDestination(destination);
     setDistanceLeft(startPosition.distanceTo(destination));
 
-    ref.current!.position.copy(position);
+    ref.current!.position.fromArray(from);
   }, []);
 
   useFrame((state, delta) => {
@@ -63,12 +61,19 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
     setDistanceLeft(distanceLeft - translateZ);
     ref.current!.translateZ(translateZ);
 
+    if (distanceLeft < -units.length * ARMY_UNIT_DISTANCE) {
+      dispatch(removeArmyMovement(id));
+      return;
+    }
+
     if (distanceTravelled < 0.1) {
       ref.current!.lookAt(destination);
     }
 
     if (distanceLeft <= 0) {
       const newStart = Math.ceil(-distanceLeft / ARMY_UNIT_DISTANCE);
+
+      setStart(newStart);
 
       if (planetId && newStart !== start) {
         const toLand = units[newStart - 1];
@@ -80,14 +85,8 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
               planetId,
             }),
           );
-
-          if (newStart === units.length) {
-            dispatch(removeArmyMovement(id));
-          }
         }
       }
-
-      setStart(newStart);
     }
 
     setEnd(units.length - Math.ceil(distanceTravelled / ARMY_UNIT_DISTANCE));

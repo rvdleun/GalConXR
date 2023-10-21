@@ -22,7 +22,7 @@ type Story = StoryObj<typeof meta>;
 const Environment = ({ planets }: { planets: GalaxyPlanet[] }) => {
   const dispatch = useDispatch();
   const statePlanets = useSelector(selectPlanets);
-  usePlanetUpdate();
+  usePlanetUpdate(true);
 
   useEffect(() => {
     determineGalaxyPlanetPositions(planets);
