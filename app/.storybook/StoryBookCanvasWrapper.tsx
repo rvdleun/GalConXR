@@ -8,26 +8,30 @@ import { VRButton, XR, Controllers, Hands } from "@react-three/xr";
 import store from "../src/redux/store.tsx";
 import { Provider } from 'react-redux';
 import { FC, PropsWithChildren, useState } from "react";
+import { useGameHeight } from "../src/hooks/game-height.hook.tsx";
 
 const Environment: FC<PropsWithChildren> = ({ children }) => {
   const map = useLoader(TextureLoader, background);
+  const { height } = useGameHeight();
+
 
   useFrame(() => {
     TWEEN.update();
   });
 
   return (
-    <XR>
+    <>
       <Hands />
       <Controllers />
-      <OrbitControls minDistance={.25} maxDistance={.25} />
       <ambientLight intensity={0.5} />
       <mesh scale={[1050, 1050, 1050]}>
         <boxGeometry />
         <meshBasicMaterial map={map} side={BackSide} />
       </mesh>
-      {children}
-    </XR>
+      <group position={[0, height, 0]}>
+        {children}
+      </group>
+    </>
   );
 };
 
@@ -56,7 +60,10 @@ export const StoryBookCanvasWrapper: FC<PropsWithChildren> = ({ children }) => {
       <Provider store={store}>
         <VRButton />
         <Canvas>
+        <XR>
+          <OrbitControls minDistance={.25} maxDistance={.25} />
           <Environment>{renderChildren && children}</Environment>
+          </XR>
         </Canvas>
       </Provider>
       <button onClick={handleResetClick} style={{ position: "fixed", bottom: "10px", right: "10px" }}>Reset</button>

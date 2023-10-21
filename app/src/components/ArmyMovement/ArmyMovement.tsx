@@ -8,6 +8,7 @@ import {
   removeArmyMovement,
 } from "../../redux/game/game.slice.tsx";
 import { ArmyUnit } from "../Army/Army.utils.ts";
+import { useGameHeight } from "../../hooks/game-height.hook.tsx";
 
 export interface ArmyMovementProps extends ArmyProps {
   id: number;
@@ -16,6 +17,8 @@ export interface ArmyMovementProps extends ArmyProps {
   speed?: number;
   to: [number, number, number];
 }
+
+const worldPosition = new Vector3();
 
 export const ARMY_UNIT_DISTANCE = 0.25;
 
@@ -31,6 +34,7 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
   const dispatch = useDispatch();
 
   const ref = useRef<Group>(new Group());
+  const { height } = useGameHeight();
   const [destination, setDestination] = useState<Vector3>();
   const [distanceLeft, setDistanceLeft] = useState<number>(-1);
   const [distanceTravelled, setDistanceTravelled] = useState<number>(0);
@@ -50,6 +54,19 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
 
     ref.current!.position.fromArray(from);
   }, []);
+
+  useEffect(() => {
+    if (!destination) {
+      return;
+    }
+
+    destination.fromArray(to);
+    destination.y+=height;
+
+    ref.current!.position.fromArray(from);
+    ref.current!.lookAt(destination);
+    ref.current!.translateZ(distanceTravelled);
+  }, [destination, height]);
 
   useFrame((state, delta) => {
     if (!destination) {
