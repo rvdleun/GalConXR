@@ -34,13 +34,13 @@
     "ts-node": "^10.9.1"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "^7.4.6",
-    "@storybook/addon-interactions": "^7.4.6",
-    "@storybook/addon-links": "^7.4.6",
+    "@storybook/addon-essentials": "^7.5.1",
+    "@storybook/addon-interactions": "^7.5.1",
+    "@storybook/addon-links": "^7.5.1",
     "@storybook/addon-onboarding": "^1.0.8",
-    "@storybook/blocks": "^7.4.6",
-    "@storybook/react": "^7.4.6",
-    "@storybook/react-vite": "^7.4.6",
+    "@storybook/blocks": "^7.5.1",
+    "@storybook/react": "^7.5.1",
+    "@storybook/react-vite": "^7.5.1",
     "@storybook/testing-library": "^0.2.2",
     "@types/jest": "^29.5.5",
     "@types/react": "^18.2.15",
@@ -52,7 +52,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "eslint-plugin-storybook": "^0.6.15",
-    "storybook": "^7.4.6",
+    "storybook": "^7.5.1",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
   }
