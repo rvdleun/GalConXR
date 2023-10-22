@@ -10,16 +10,17 @@ export const useGameHeight = () => {
     const { isPresenting, player } = useXR();
     const height = useSelector(selectGameHeight) || 0;
 
-    const setHeight = (height: number) => {
-        dispatch(setGameHeight(height));
+    const setHeight = (newHeight: number) => {
+        dispatch(setGameHeight(newHeight));
     }
 
     useEffect(() => {
-        console.log(player.position);
-        setTimeout(() => {
-            console.log(player.position, player);
-        }, 100);
-        setHeight(isPresenting ? player.children[0].position.y : 0);
+        const newHeight = isPresenting ? player.children[0].position.y : 0;
+        if (height === newHeight) {
+            return;
+        }
+
+        setHeight(newHeight);
     }, [isPresenting]);
 
     return { height, setHeight };

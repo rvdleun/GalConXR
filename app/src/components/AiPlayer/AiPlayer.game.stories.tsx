@@ -109,6 +109,6 @@ export const GeneratedGalaxy: Story = {
     newPlanets: generatedPlanets,
     overrideArmyCount: -1,
     planetUpdate: true,
-    updateEverySeconds: 1,
+    updateEverySeconds: 3,
   },
 };

@@ -49,6 +49,8 @@ export const AiPlayer: FC<AiPlayerProps> = ({
       return;
     }
 
+    setNextUpdate(updateEverySeconds * 1000);
+
     const action = determineNextArmyMovementAction(
       player.aiMethod!,
       player.faction,
@@ -63,7 +65,6 @@ export const AiPlayer: FC<AiPlayerProps> = ({
     }
 
     dispatch(addArmyMovement(action));
-    setNextUpdate(updateEverySeconds * 1000);
   });
 
   return null;

@@ -55,18 +55,18 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
     ref.current!.position.fromArray(from);
   }, []);
 
-  useEffect(() => {
-    if (!destination) {
-      return;
-    }
+  // useEffect(() => {
+  //   if (!destination) {
+  //     return;
+  //   }
 
-    destination.fromArray(to);
-    destination.y+=height;
+  //   destination.fromArray(to);
+  //   destination.y+=height;
 
-    ref.current!.position.fromArray(from);
-    ref.current!.lookAt(destination);
-    ref.current!.translateZ(distanceTravelled);
-  }, [destination, height]);
+  //   ref.current!.position.fromArray(from);
+  //   ref.current!.lookAt(destination);
+  //   ref.current!.translateZ(distanceTravelled);
+  // }, [destination, height]);
 
   useFrame((state, delta) => {
     if (!destination) {
