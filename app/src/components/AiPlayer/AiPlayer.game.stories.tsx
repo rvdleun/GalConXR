@@ -5,7 +5,7 @@ import { Galaxy } from "../Galaxy/Galaxy.tsx";
 import { determineGalaxyPlanetPositions } from "../Galaxy/Galaxy.utils.ts";
 import { AiPlayer } from "./AiPlayer.tsx";
 import { useEffect } from "react";
-import { setPlanets } from "../../redux/game/game.slice.tsx";
+import { reset, setPlanets } from "../../redux/game/game.slice.tsx";
 import { AiMethod } from "../../utils/ai-player.utils.ts";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import {
@@ -39,6 +39,7 @@ const Environment = ({
   const planets = useSelector(selectPlanets);
 
   useEffect(() => {
+    dispatch(reset());
     dispatch(setPlanets(newPlanets));
   }, [newPlanets]);
 

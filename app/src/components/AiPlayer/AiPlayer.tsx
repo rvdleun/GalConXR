@@ -12,6 +12,7 @@ interface AiPlayerProps {
   updateEverySeconds?: number;
 }
 
+let nextUpdate = 0;
 export const AiPlayer: FC<AiPlayerProps> = ({
   overrideArmyCount = 0,
   planets,
@@ -20,36 +21,13 @@ export const AiPlayer: FC<AiPlayerProps> = ({
 }) => {
   const dispatch = useDispatch();
 
-  const [nextUpdate, setNextUpdate] = useState(updateEverySeconds * 1000);
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     const action = determineNextArmyMovementAction(
-  //       player.aiMethod!,
-  //       player.faction,
-  //       planets,
-  //     );
-  //     if (!action) {
-  //       return;
-  //     }
-  //
-  //     if (overrideArmyCount > 0) {
-  //       action.armyCount = overrideArmyCount;
-  //     }
-  //
-  //     dispatch(addArmyMovement(action));
-  //   }, updateEverySeconds * 1000);
-  //
-  //   return () => clearInterval(interval);
-  // }, [planets]);
-
   useFrame((state, delta) => {
-    setNextUpdate(nextUpdate - delta * 1000);
+    nextUpdate-=delta;
     if (nextUpdate > 0) {
       return;
     }
 
-    setNextUpdate(updateEverySeconds * 1000);
+    nextUpdate = updateEverySeconds;
 
     const action = determineNextArmyMovementAction(
       player.aiMethod!,

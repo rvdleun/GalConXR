@@ -1,4 +1,4 @@
-import { generateArmyUnits } from "./Army.utils.ts";
+import { generateArmyUnits } from "./ArmyMovement.utils.ts";
 
 describe("Army utils", () => {
   it("should be able to form a correct line of ArmyUnit Units", () => {

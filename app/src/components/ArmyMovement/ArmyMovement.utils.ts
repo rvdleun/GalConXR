@@ -1,4 +1,4 @@
-import { ARMY_UNIT_DISTANCE } from "../ArmyMovement/ArmyMovement.tsx";
+import { ARMY_UNIT_DISTANCE } from "./ArmyMovement.tsx";
 
 const sizes = [5, 1];
 

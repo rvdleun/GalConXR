@@ -87,21 +87,23 @@ const Environment = ({
   }, []);
 
   return (
-    <StoryBookCanvasWrapper>
+    <>
       <Galaxy planets={planets} selectedPlanetId={selectedPlanetId} />
       <group>
         {armyMovements.map((props) => (
           <ArmyMovement key={props.id} {...props} />
         ))}
       </group>
-    </StoryBookCanvasWrapper>
+    </>
   );
 };
 
 export const Automatic: Story = {
   render: () => (
     <Provider store={store}>
+      <StoryBookCanvasWrapper>
       <Environment scenarioPlanets={planetsData} startMovement />
+      </StoryBookCanvasWrapper>
     </Provider>
   ),
 };
@@ -109,7 +111,9 @@ export const Automatic: Story = {
 export const ShowMultiple: Story = {
   render: () => (
     <Provider store={store}>
+      <StoryBookCanvasWrapper>
       <Environment scenarioPlanets={planetsData} showMultiple />
+      </StoryBookCanvasWrapper>
     </Provider>
   ),
 };
@@ -117,7 +121,9 @@ export const ShowMultiple: Story = {
 export const RequiresInteraction: Story = {
   render: () => (
     <Provider store={store}>
+      <StoryBookCanvasWrapper>
       <Environment scenarioPlanets={planetsData} />
+      </StoryBookCanvasWrapper>
     </Provider>
   ),
 };
@@ -131,7 +137,9 @@ export const WithGeneratedGalaxy: Story = {
 
     return (
       <Provider store={store}>
+      <StoryBookCanvasWrapper>
         <Environment scenarioPlanets={planets} />
+        </StoryBookCanvasWrapper>
       </Provider>
     );
   },

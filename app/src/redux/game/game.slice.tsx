@@ -24,17 +24,14 @@ const gameSlice = createSlice({
   reducers: {
     addArmyMovement(state: GameState, action: PayloadAction<ArmyMovement>) {
       const from = findPlanet(action.payload.from, state)!;
-      const to = findPlanet(action.payload.to, state)!;
-
       from.armyCount -= action.payload.armyCount;
 
       state.armyMovements.push({
         id: ++armyMovementId,
-        from: from.position!,
-        to: to.position!,
+        from: action.payload.from,
+        to: action.payload.to,
         armyCount: action.payload.armyCount,
         faction: from.faction,
-        planetId: action.payload.to,
       });
     },
 
@@ -46,7 +43,11 @@ const gameSlice = createSlice({
         planetId: string;
       }>,
     ) {
-      const planet = findPlanet(action.payload.planetId, state)!;
+      const planet = findPlanet(action.payload.planetId, state);
+      if (!planet) {
+        return;
+      }
+
       if (planet.faction === action.payload.faction) {
         planet.armyCount += action.payload.armyCount;
       } else {

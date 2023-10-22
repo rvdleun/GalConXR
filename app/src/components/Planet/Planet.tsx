@@ -12,7 +12,7 @@ interface PlanetProps extends Object3DProps {
   armyCount: number;
   faction: number;
   planetId: string;
-  selected: boolean;
+  selected?: boolean;
   scale: number;
 }
 
@@ -22,7 +22,7 @@ export const Planet: FC<PlanetProps> = ({
   armyCount,
   faction,
   planetId,
-  selected,
+  selected = false,
   scale = 1,
   ...props
 }) => {
@@ -57,7 +57,7 @@ export const Planet: FC<PlanetProps> = ({
 
   return (
     <Interactive onSelect={handleClick}>
-      <object3D {...props} scale={0.075 * scale}>
+      <object3D name={`planet-${planetId}`} {...props} scale={0.075 * scale}>
         <mesh onClick={handleClick}>
           <sphereGeometry args={[0.975, 32, 32]} />
           <meshBasicMaterial color={selected ? "white" : "black"} />
