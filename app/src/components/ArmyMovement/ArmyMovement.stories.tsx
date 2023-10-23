@@ -23,6 +23,14 @@ const planetsData: GalaxyPlanet[] = [
     y: 0,
     scale: 1,
   },
+  {
+    id: "from-2",
+    armyCount: 10,
+    faction: 1,
+    x: -7,
+    y: 2,
+    scale: 1,
+  },
 ];
 determineGalaxyPlanetPositions(planetsData);
 
@@ -34,7 +42,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {
+export const OneArmyMovement: Story = {
   render: ({ from, to, ...props }) => (
     <StoryBookCanvasWrapper>
       <Galaxy planets={planetsData} />
@@ -47,5 +55,22 @@ export const Primary: Story = {
     id: 1,
     armyCount: 1,
     faction: 1,
+    showPath: true
+  },
+};
+
+export const TwoArmyMovements: Story = {
+  render: ({ from, to, ...props }) => (
+    <StoryBookCanvasWrapper>
+      <Galaxy planets={planetsData} />
+      <ArmyMovement from='from' to='to' {...props} />
+      <ArmyMovement from='from-2' to='to' {...props} />
+    </StoryBookCanvasWrapper>
+  ),
+  args: {
+    id: 1,
+    armyCount: 1,
+    faction: 1,
+    showPath: true
   },
 };
