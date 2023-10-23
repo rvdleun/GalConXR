@@ -16,7 +16,6 @@ function CurveVisualisation({ curve }: { curve: Curve<Vector3>}) {
     return null;
   }
 
-  console.log(curve);
   const points = curve.getPoints(50);
   const geometry = new BufferGeometry().setFromPoints(points);
 
@@ -73,14 +72,15 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
       return;
     }
 
+    const distance = fromPlanet.position.distanceTo(toPlanet.position);
     const armyUnits = generateArmyUnits(armyCount);
     const armies = armyUnits.map((armyUnitCount, index) => {
       object3D.position.copy(fromPlanet.position).lerp(toPlanet.position, .5);
-      addRandomValueToAxes(object3D.position, .25);
+      addRandomValueToAxes(object3D.position, distance * .1);
   
       const midPoint = new Vector3().copy(object3D.position);
       const path = [fromPlanet.position, midPoint, toPlanet.position];
-        return {
+      return {
         delay: index * ARMY_UNIT_DISTANCE,
         armyCount: armyUnitCount.size,
         faction,
