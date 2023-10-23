@@ -41,6 +41,7 @@ const planetsData: GalaxyPlanet[] = [
   },
 ];
 determineGalaxyPlanetPositions(planetsData);
+// planetsData.forEach(planet => planet.position![2] = 0);
 
 const meta = {
   title: "Components/ArmyMovement",
@@ -83,6 +84,18 @@ export const TwoArmyMovements: Story = {
   },
 };
 
+export const PerformanceTest: Story = {
+  render: ({ from, to, ...props }) => (
+    <StoryBookCanvasWrapper>
+      <Galaxy planets={planetsData} />
+      <ArmyMovement id={1} faction={1} from='from' to='to' armyCount={500} />
+      <ArmyMovement id={1} faction={2} from='from-2' to='to' armyCount={500} />
+      <ArmyMovement id={1} faction={3} from='to-2' to='to' armyCount={500} />
+    </StoryBookCanvasWrapper>
+  ),
+  args: {},
+};
+
 export const ShortDistance: Story = {
   render: ({ from, to, ...props }) => (
     <StoryBookCanvasWrapper>
@@ -91,8 +104,6 @@ export const ShortDistance: Story = {
     </StoryBookCanvasWrapper>
   ),
   args: {
-    id: 1,
-    armyCount: 1,
     faction: 1,
     showPath: true
   },

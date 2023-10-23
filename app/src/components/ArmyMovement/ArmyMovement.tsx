@@ -1,15 +1,24 @@
-import { Army, ArmyProps } from "../Army/Army.tsx";
 import { FC, useEffect, useRef, useState } from "react";
-import { BufferGeometry, CatmullRomCurve3, Curve, CurvePath, Euler, Object3D, Vector3 } from "three";
+import { BufferGeometry, CatmullRomCurve3, ConeGeometry, Curve, Euler, Group, InstancedMesh, Matrix4, MeshBasicMaterial, Object3D, Quaternion, Vector3 } from "three";
 import { useDispatch } from "react-redux";
-import { ArmyUnit, ArmyUnitProps } from "../ArmyUnit/ArmyUnit.tsx";
+import { ArmyUnit, ArmyUnitRenderData } from "../ArmyUnit/ArmyUnit.tsx";
 import { useFrame, useThree } from "@react-three/fiber";
 import { landArmies, removeArmyMovement } from "../../redux/game/game.slice.tsx";
-import { generateArmyUnits } from "./ArmyMovement.utils.ts";
 import { addRandomValueToAxes } from "../../utils/vector3.utils.ts";
+import { getFactionShipMaterial } from "../../utils/faction.utils.tsx";
 
 const object3D = new Object3D();
-export const ARMY_UNIT_DISTANCE = 0.25;
+object3D.scale.set(0.0175, 0.025, 0.0625);
+export const ARMY_UNIT_DISTANCE = 0.05;
+
+export interface ArmyUnitProps {
+  armyUnits: ArmyUnitRenderData[]
+}
+
+const geometry = new ConeGeometry();
+const matrix = new Matrix4();
+matrix.makeRotationX(Math.PI / 2); // Rotate around the Y-axis
+geometry.applyMatrix4(matrix);
 
 function CurveVisualisation({ curve }: { curve: Curve<Vector3>}) {
   if (!curve) {
@@ -27,17 +36,14 @@ function CurveVisualisation({ curve }: { curve: Curve<Vector3>}) {
   );
 }
 
-interface ArmyUnitData extends ArmyUnitProps {
+export interface ArmyUnitData extends ArmyUnitRenderData {
   delay: number;
-  key: number;
   landed?: boolean;
   path: Curve<Vector3>;
-  position: [number, number, number];
   progress: number;
-  rotation: [number, number, number];
 }
 
-export interface ArmyMovementProps extends ArmyProps {
+export interface ArmyMovementProps {
   armyCount: number;
   faction: number;
   id: number;
@@ -58,9 +64,11 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
 }) => {
   const dispatch = useDispatch();
   const { scene } = useThree();
+  const ref = useRef<Group>(new Group());
 
   const [armies, setArmies] = useState<ArmyUnitData[]>([]);
   const [destination, setDestination] = useState<Object3D>();
+  const [instancedMesh, setInstancedMesh] = useState<InstancedMesh>();
   const [removed, setRemoved] = useState(false);
 
   useEffect(() => {
@@ -73,32 +81,43 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
     }
 
     const distance = fromPlanet.position.distanceTo(toPlanet.position);
-    const armyUnits = generateArmyUnits(armyCount);
-    const armies = armyUnits.map((armyUnitCount, index) => {
+    const armies = [];
+    
+    for(let i = 0; i < armyCount; i++) {
       object3D.position.copy(fromPlanet.position).lerp(toPlanet.position, .5);
       addRandomValueToAxes(object3D.position, distance * .1);
   
       const midPoint = new Vector3().copy(object3D.position);
       const path = [fromPlanet.position, midPoint, toPlanet.position];
-      return {
-        delay: index * ARMY_UNIT_DISTANCE,
-        armyCount: armyUnitCount.size,
+      armies.push({
+        delay: i * ARMY_UNIT_DISTANCE,
+        armyCount: 1,
         faction,
-        key: index,
         position: fromPlanet.position.toArray(),
         path: new CatmullRomCurve3(path),
         progress: 0,
         rotation: new Euler().toArray() as [number, number, number],
-        scale: 1 + Math.random()
-      };
-    });
+        scale: 1 + Math.random(),
+        visible: false
+      });
+    }
 
     setArmies(armies);
     setDestination(toPlanet);
+
+    const material = getFactionShipMaterial(faction);
+    const newInstancedMesh = new InstancedMesh(geometry, material, armies.length);
+
+    ref.current!.add(newInstancedMesh);
+    setInstancedMesh(newInstancedMesh);
+
+    return () => {
+      instancedMesh?.dispose();
+    }
   }, []);
 
   useFrame((state, delta) => {
-    if (!destination || removed) {
+    if (!destination || !instancedMesh || removed) {
       return;
     }
 
@@ -108,7 +127,7 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
       return;
     }
 
-    setArmies(armies.map(army => {
+    armies.forEach((army, index) => {
       army.delay-=delta;
       army.visible = army.delay < 0;
 
@@ -118,26 +137,33 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
         const point = army.path.getPoint(army.progress);
         object3D.position.set(point.x, point.y, point.z);
         object3D.lookAt(army.path.getPoint(Math.min(1, army.progress + .1)));
+        object3D.updateMatrix();
 
         army.position = object3D.position.toArray();
         army.rotation = object3D.rotation.toArray() as [number, number, number];
 
-        army.landed = object3D.position.distanceTo(destination.position) < 0.1;
-        if (army.landed) {
+        const landed = object3D.position.distanceTo(destination.position) < 0.1;
+        object3D.visible = !landed;
+        if (landed && !army.landed) {
+          army.landed = true;
+          matrix.setPosition(9999, 9999, 9999);
+          instancedMesh.setMatrixAt(index, matrix);
+
           dispatch(landArmies({
-            armyCount: army.armyCount,
+            armyCount: 1,
             faction,
             planetId: to
           }))
+        } else {
+          instancedMesh.setMatrixAt(index, object3D.matrix);
         }
       }
+    });
 
-      return army;
-    }).filter(army => !army.landed));
+    instancedMesh.instanceMatrix.needsUpdate = true;
   });
 
-  return armies.map(army => <group key={army.key}>
-    <ArmyUnit {...army} />
-    { showPath && <CurveVisualisation curve={army.path} /> }
-  </group>);
+  return <group ref={ref}>
+    { showPath && armyCount < 15 && armies.map((army, index) => <CurveVisualisation key={index} curve={army.path} /> )}
+  </group>;
 };
