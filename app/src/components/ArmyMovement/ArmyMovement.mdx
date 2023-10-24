@@ -1,4 +1,5 @@
 # Components/ArmyMovement
+
 The responsibility of the ArmyMovement component is to display and animate armies that move from one planet to the other. The complexity in this component lies with using an [InstancedMesh](https://threejs.org/docs/#api/en/objects/InstancedMesh) to give as few draw calls as possible while still having to render a large number of objects. I originally tried to do the actual rendering in another component, but this approach wasn't working well. I wasn't able to get the Instances component from drei to work either, which is why this is a more custom and lower-level THREE.js implementation.
 
 These stories are only focused on displaying the animation of moving from A to B. The stories in the Game directory will check if a planet actually loses armies.

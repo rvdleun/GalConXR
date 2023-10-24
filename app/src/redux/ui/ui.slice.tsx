@@ -13,13 +13,11 @@ const uiSlice = createSlice({
   initialState,
   reducers: {
     setGameHeight(state: UiState, action: PayloadAction<number>) {
-        state.gameHeight = action.payload;
-    }
+      state.gameHeight = action.payload;
+    },
   },
 });
 
-export const {
-    setGameHeight
-} = uiSlice.actions;
+export const { setGameHeight } = uiSlice.actions;
 
 export default uiSlice.reducer;

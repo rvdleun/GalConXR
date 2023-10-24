@@ -10,7 +10,7 @@ export interface AppState {
 const store = configureStore({
   reducer: {
     game: gameReducer,
-    ui: uiReducer
+    ui: uiReducer,
   },
 });
 

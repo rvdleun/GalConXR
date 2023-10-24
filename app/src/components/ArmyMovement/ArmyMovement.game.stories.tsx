@@ -102,7 +102,7 @@ export const Automatic: Story = {
   render: () => (
     <Provider store={store}>
       <StoryBookCanvasWrapper>
-      <Environment scenarioPlanets={planetsData} startMovement />
+        <Environment scenarioPlanets={planetsData} startMovement />
       </StoryBookCanvasWrapper>
     </Provider>
   ),
@@ -112,7 +112,7 @@ export const ShowMultiple: Story = {
   render: () => (
     <Provider store={store}>
       <StoryBookCanvasWrapper>
-      <Environment scenarioPlanets={planetsData} showMultiple />
+        <Environment scenarioPlanets={planetsData} showMultiple />
       </StoryBookCanvasWrapper>
     </Provider>
   ),
@@ -122,7 +122,7 @@ export const RequiresInteraction: Story = {
   render: () => (
     <Provider store={store}>
       <StoryBookCanvasWrapper>
-      <Environment scenarioPlanets={planetsData} />
+        <Environment scenarioPlanets={planetsData} />
       </StoryBookCanvasWrapper>
     </Provider>
   ),
@@ -137,8 +137,8 @@ export const WithGeneratedGalaxy: Story = {
 
     return (
       <Provider store={store}>
-      <StoryBookCanvasWrapper>
-        <Environment scenarioPlanets={planets} />
+        <StoryBookCanvasWrapper>
+          <Environment scenarioPlanets={planets} />
         </StoryBookCanvasWrapper>
       </Provider>
     );

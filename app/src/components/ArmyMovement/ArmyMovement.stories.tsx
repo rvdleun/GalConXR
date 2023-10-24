@@ -59,12 +59,12 @@ export const OneArmyMovement: Story = {
     </StoryBookCanvasWrapper>
   ),
   args: {
-    from: 'from',
-    to: 'to',
+    from: "from",
+    to: "to",
     id: 1,
     armyCount: 1,
     faction: 1,
-    showPath: true
+    showPath: true,
   },
 };
 
@@ -72,15 +72,15 @@ export const TwoArmyMovements: Story = {
   render: ({ from, to, ...props }) => (
     <StoryBookCanvasWrapper>
       <Galaxy planets={planetsData} />
-      <ArmyMovement from='from' to='to' {...props} />
-      <ArmyMovement from='from-2' to='to' {...props} />
+      <ArmyMovement from="from" to="to" {...props} />
+      <ArmyMovement from="from-2" to="to" {...props} />
     </StoryBookCanvasWrapper>
   ),
   args: {
     id: 1,
     armyCount: 1,
     faction: 1,
-    showPath: true
+    showPath: true,
   },
 };
 
@@ -88,9 +88,9 @@ export const PerformanceTest: Story = {
   render: ({ from, to, ...props }) => (
     <StoryBookCanvasWrapper>
       <Galaxy planets={planetsData} />
-      <ArmyMovement id={1} faction={1} from='from' to='to' armyCount={500} />
-      <ArmyMovement id={1} faction={2} from='from-2' to='to' armyCount={500} />
-      <ArmyMovement id={1} faction={3} from='to-2' to='to' armyCount={500} />
+      <ArmyMovement id={1} faction={1} from="from" to="to" armyCount={500} />
+      <ArmyMovement id={1} faction={2} from="from-2" to="to" armyCount={500} />
+      <ArmyMovement id={1} faction={3} from="to-2" to="to" armyCount={500} />
     </StoryBookCanvasWrapper>
   ),
   args: {},
@@ -100,11 +100,11 @@ export const ShortDistance: Story = {
   render: ({ from, to, ...props }) => (
     <StoryBookCanvasWrapper>
       <Galaxy planets={planetsData} />
-      <ArmyMovement from='from-2' to='to-2' {...props} />
+      <ArmyMovement from="from-2" to="to-2" {...props} />
     </StoryBookCanvasWrapper>
   ),
   args: {
     faction: 1,
-    showPath: true
+    showPath: true,
   },
 };

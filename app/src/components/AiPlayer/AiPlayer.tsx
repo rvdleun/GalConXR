@@ -22,7 +22,7 @@ export const AiPlayer: FC<AiPlayerProps> = ({
   const dispatch = useDispatch();
 
   useFrame((state, delta) => {
-    nextUpdate-=delta;
+    nextUpdate -= delta;
     if (nextUpdate > 0) {
       return;
     }

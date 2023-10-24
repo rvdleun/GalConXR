@@ -16,7 +16,9 @@ function determineRandomArmyMovement(
   faction: number,
   planets: GalaxyPlanet[],
 ): ArmyMovement | undefined {
-  const fromPlanets = planets.filter((planet) => planet.faction === faction && planet.armyCount > 0);
+  const fromPlanets = planets.filter(
+    (planet) => planet.faction === faction && planet.armyCount > 0,
+  );
   const toPlanets = planets.filter((planet) => planet.faction !== faction);
 
   if (fromPlanets.length === 0 || toPlanets.length === 0) {

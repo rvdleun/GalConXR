@@ -1,6 +1,7 @@
-import { Meta } from '@storybook/blocks';
+import { Meta } from "@storybook/blocks";
 
 <Meta title="Hooks/GameHeight" />
 
 # hooks/GameHeight
+
 The GameHeight hook manages the height of the Game objects. All positioning is setup where 0 on the Y Axis is treated as the center, and this hook is the central point to setup the height. When the player is not in VR, the game height is set to 0. When they start a XR session, the player's initial Y Position is then used as the game height to ensure that the planets are on the player's height level. With the `setHeight` function, we can manually manage it. For example, if the player would want to change it to a different height while in-game.
