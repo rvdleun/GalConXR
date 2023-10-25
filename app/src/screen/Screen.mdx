@@ -1,0 +1,9 @@
+# Screen
+
+The Screen components are used to display content on a canvas. Each component underneath the Screen component will be rendered on top of the canvas. Any external component that implements a Screen is responsible for rendering it in the browser and passing events, like click.
+
+The main drive for these components are to have a generic way to build 2D interfaces. My initial approach was using Konva, but I ran into some issues early on and decided to go for a homebrew solution for now.
+
+I'll also be using this as an opportunity to experiment with [Atomic Design](https://atomicdesign.bradfrost.com/chapter-2/) in the way of building components as atoms, molecules, organisms and templates.
+
+There are likely easier ways of doing this, but I'm finding it to be a fun experiment.
