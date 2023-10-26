@@ -4,7 +4,7 @@ import { BackSide } from "three";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 import background from "./holodeck-pattern.jpg";
 import * as TWEEN from "@tweenjs/tween.js";
-import { VRButton, XR, Controllers, Hands } from "@react-three/xr";
+import { VRButton, XR, Controllers, Hands, ARButton, useXR } from "@react-three/xr";
 import store from "../src/redux/store.tsx";
 import { Provider } from 'react-redux';
 import { FC, PropsWithChildren, useState } from "react";
@@ -13,7 +13,7 @@ import { useGameHeight } from "../src/hooks/game-height.hook.tsx";
 const Environment: FC<PropsWithChildren> = ({ children }) => {
   const map = useLoader(TextureLoader, background);
   const { height } = useGameHeight();
-
+    const { isPresenting } = useXR();
 
   useFrame(() => {
     TWEEN.update();
@@ -24,10 +24,10 @@ const Environment: FC<PropsWithChildren> = ({ children }) => {
       <Hands />
       <Controllers />
       <ambientLight intensity={0.5} />
-      <mesh scale={[1050, 1050, 1050]}>
+      {!isPresenting && <mesh scale={[1050, 1050, 1050]}>
         <boxGeometry />
         <meshBasicMaterial map={map} side={BackSide} />
-      </mesh>
+      </mesh> }
       <group position={[0, height, 0]}>
         {children}
       </group>
@@ -58,7 +58,7 @@ export const StoryBookCanvasWrapper: FC<PropsWithChildren> = ({ children }) => {
       }}
     >
       <Provider store={store}>
-        <VRButton />
+        <ARButton />
         <Canvas>
         <XR>
           <OrbitControls minDistance={.25} maxDistance={.25} />

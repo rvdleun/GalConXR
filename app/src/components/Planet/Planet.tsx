@@ -1,12 +1,13 @@
 import { FC, useEffect, useRef, useState } from "react";
-import { Color, MeshBasicMaterial, Object3D } from "three";
+import { Color, MeshBasicMaterial, Object3D, Vector3 } from "three";
 import { FactionColor } from "../../models/game.model.ts";
 import * as TWEEN from "@tweenjs/tween.js";
 import { Text } from "@react-three/drei";
 import { Object3DProps, useFrame } from "@react-three/fiber";
 import { useDispatch } from "react-redux";
 import { toggleSelectedPlanetId } from "../../redux/game/game.slice.tsx";
-import { Interactive } from "@react-three/xr";
+import { Interactive, useXR } from "@react-three/xr";
+import { useGameHeight } from '../../hooks/game-height.hook.tsx';
 
 interface PlanetProps extends Object3DProps {
   armyCount: number;
@@ -18,6 +19,8 @@ interface PlanetProps extends Object3DProps {
 
 const NEUTRAL_COLOR = new Color(0x888888);
 
+const object3D = new Object3D();
+const vector3 = new Vector3();
 export const Planet: FC<PlanetProps> = ({
   armyCount,
   faction,
@@ -27,6 +30,8 @@ export const Planet: FC<PlanetProps> = ({
   ...props
 }) => {
   const dispatch = useDispatch();
+  const { height } = useGameHeight();
+  const { isPresenting, player } = useXR();
   const [transition, setTransition] =
     useState<TWEEN.Tween<{ r: number; g: number; b: number }>>();
   const materialRef = useRef<MeshBasicMaterial>(new MeshBasicMaterial());
@@ -52,7 +57,16 @@ export const Planet: FC<PlanetProps> = ({
   }, [faction]);
 
   useFrame(({ camera }) => {
-    textRef.current!.lookAt(camera.position);
+    if (isPresenting) {
+      textRef.current!.getWorldPosition(object3D.position);
+      player.children[0].getWorldPosition(vector3);
+      vector3.setY(object3D.position.y);
+      object3D.lookAt(vector3);
+      console.log(object3D.position, vector3);
+      textRef.current!.rotation.copy(object3D.rotation);
+    } else {
+      textRef.current!.lookAt(camera.position);
+    }
   });
 
   return (

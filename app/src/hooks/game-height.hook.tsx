@@ -15,12 +15,24 @@ export const useGameHeight = () => {
   };
 
   useEffect(() => {
-    const newHeight = isPresenting ? player.children[0].position.y : 0;
-    if (height === newHeight) {
+    if (!isPresenting) {
+      setHeight(0);
       return;
     }
 
-    setHeight(newHeight);
+    const initialY = player.children[0].position.y;
+    setHeight(initialY);
+    const interval = setInterval(() => {
+      const newHeight = player.children[0].position.y;
+        if (newHeight === initialY) {
+            return;
+        }
+
+      setHeight(newHeight);
+        clearInterval(interval);
+    }, 100);
+
+    return () => clearInterval(interval);
   }, [isPresenting]);
 
   return { height, setHeight };

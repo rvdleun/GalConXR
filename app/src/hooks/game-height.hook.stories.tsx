@@ -29,8 +29,8 @@ const Environment: FC<{ height: number }> = ({ height }) => {
       <ArmyMovement
         id={1}
         faction={1}
-        from={planets[1].position!}
-        to={planets[2].position!}
+        from={'2'}
+        to={'3'}
         armyCount={100}
       />
     </>
