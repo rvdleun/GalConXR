@@ -105,11 +105,7 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
     const armies = [];
 
     const material = getFactionShipMaterial(faction);
-    const newInstancedMesh = new InstancedMesh(
-        geometry,
-        material,
-        armyCount,
-    );
+    const newInstancedMesh = new InstancedMesh(geometry, material, armyCount);
 
     for (let i = 0; i < armyCount; i++) {
       object3D.position.copy(fromPlanet.position).lerp(toPlanet.position, 0.5);

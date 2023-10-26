@@ -7,7 +7,7 @@ import { Object3DProps, useFrame } from "@react-three/fiber";
 import { useDispatch } from "react-redux";
 import { toggleSelectedPlanetId } from "../../redux/game/game.slice.tsx";
 import { Interactive, useXR } from "@react-three/xr";
-import { useGameHeight } from '../../hooks/game-height.hook.tsx';
+import { useGameHeight } from "../../hooks/game-height.hook.tsx";
 
 interface PlanetProps extends Object3DProps {
   armyCount: number;

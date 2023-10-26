@@ -26,13 +26,7 @@ const Environment: FC<{ height: number }> = ({ height }) => {
   return (
     <>
       <Galaxy planets={planets} />
-      <ArmyMovement
-        id={1}
-        faction={1}
-        from={'2'}
-        to={'3'}
-        armyCount={100}
-      />
+      <ArmyMovement id={1} faction={1} from={"2"} to={"3"} armyCount={100} />
     </>
   );
 };

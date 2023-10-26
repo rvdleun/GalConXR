@@ -24,12 +24,12 @@ export const useGameHeight = () => {
     setHeight(initialY);
     const interval = setInterval(() => {
       const newHeight = player.children[0].position.y;
-        if (newHeight === initialY) {
-            return;
-        }
+      if (newHeight === initialY) {
+        return;
+      }
 
       setHeight(newHeight);
-        clearInterval(interval);
+      clearInterval(interval);
     }, 100);
 
     return () => clearInterval(interval);
