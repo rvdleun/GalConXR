@@ -62,7 +62,6 @@ export const Planet: FC<PlanetProps> = ({
       player.children[0].getWorldPosition(vector3);
       vector3.setY(object3D.position.y);
       object3D.lookAt(vector3);
-      console.log(object3D.position, vector3);
       textRef.current!.rotation.copy(object3D.rotation);
     } else {
       textRef.current!.lookAt(camera.position);

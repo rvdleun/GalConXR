@@ -14,8 +14,6 @@ type Story = StoryObj<typeof meta>;
 const Environment = () => {
   const planets = generateGalaxy(GalaxySize.LARGE);
 
-  console.log("Generated planets", planets);
-
   return <Galaxy planets={planets} />;
 };
 

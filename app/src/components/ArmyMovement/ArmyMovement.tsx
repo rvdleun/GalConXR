@@ -24,6 +24,7 @@ import { addRandomValueToAxes } from "../../utils/vector3.utils.ts";
 import { getFactionShipMaterial } from "../../utils/faction.utils.tsx";
 
 const object3D = new Object3D();
+object3D.position.set(Math.infinity, Math.infinity, Math.infinity);
 object3D.scale.set(0.0175, 0.025, 0.0625);
 export const ARMY_UNIT_DISTANCE = 0.05;
 
@@ -103,9 +104,18 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
     const distance = fromPlanet.position.distanceTo(toPlanet.position);
     const armies = [];
 
+    const material = getFactionShipMaterial(faction);
+    const newInstancedMesh = new InstancedMesh(
+        geometry,
+        material,
+        armyCount,
+    );
+
     for (let i = 0; i < armyCount; i++) {
       object3D.position.copy(fromPlanet.position).lerp(toPlanet.position, 0.5);
       addRandomValueToAxes(object3D.position, distance * 0.1);
+
+      newInstancedMesh.setMatrixAt(i, object3D.matrix);
 
       const midPoint = new Vector3().copy(object3D.position);
       const path = [fromPlanet.position, midPoint, toPlanet.position];
@@ -124,13 +134,6 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
 
     setArmies(armies);
     setDestination(toPlanet);
-
-    const material = getFactionShipMaterial(faction);
-    const newInstancedMesh = new InstancedMesh(
-      geometry,
-      material,
-      armies.length,
-    );
 
     ref.current!.add(newInstancedMesh);
     setInstancedMesh(newInstancedMesh);
@@ -155,8 +158,10 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
       army.delay -= delta;
       army.visible = army.delay < 0;
 
-      if (army.visible && !army.landed) {
-        army.progress += delta * (speed / army.path.getLength());
+      if (!army.landed) {
+        if (army.visible) {
+          army.progress += delta * (speed / army.path.getLength());
+        }
 
         const point = army.path.getPoint(army.progress);
         object3D.position.set(point.x, point.y, point.z);
