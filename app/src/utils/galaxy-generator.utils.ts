@@ -18,18 +18,21 @@ export function generateGalaxy(size: GalaxySize): GalaxyPlanet[] {
   const numberOfPlanets = (size * 6) / 5.4;
   let attempts = 0;
 
-  while (planets.length < numberOfPlanets && attempts < MAX_ATTEMPTS) {
-    const x = Math.floor(Math.random() * size);
-    const y = Math.floor(Math.random() * 6);
+  while (planets.length < numberOfPlanets && ++attempts < MAX_ATTEMPTS) {
+    const x = 1 + Math.floor(Math.random() * (size - 2));
+    const y = Math.floor(Math.random() * 5) + 1;
 
-    for (let i = x - 1; i <= x + 1; i++) {
-      const xyTaken = planets.some(
-        ({ x: planetX, y: planetY }) => i === planetX && y === planetY,
-      );
-      if (xyTaken) {
+    if (planets.some(({ x: planetX, y: planetY }) => x === planetX && y === planetY)) {
         continue;
-      }
     }
+    // for (let i = x - 1; i <= x + 1; i++) {
+    //   const xyTaken = planets.some(
+    //     ({ x: planetX, y: planetY }) => i === planetX && y === planetY,
+    //   );
+    //   if (xyTaken) {
+    //     continue;
+    //   }
+    // }
 
     planets.push({
       x,
@@ -39,8 +42,6 @@ export function generateGalaxy(size: GalaxySize): GalaxyPlanet[] {
       scale: 0.5 + Math.random() * 0.5,
       armyCount: 5,
     });
-
-    attempts++;
   }
 
   if (attempts === MAX_ATTEMPTS) {
@@ -51,4 +52,14 @@ export function generateGalaxy(size: GalaxySize): GalaxyPlanet[] {
   determineGalaxyPlanetPositions(planets);
 
   return planets;
+}
+
+export function assignPlanetToPlayer(planets: GalaxyPlanet[], factionId: number) {
+    const planet = planets.find(({ faction }) => faction === 0);
+    console.log(factionId, planet, planets);
+    if (planet) {
+        planet.armyCount = 50;
+        planet.faction = factionId;
+        planet.scale = 1;
+    }
 }
