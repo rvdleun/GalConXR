@@ -21,6 +21,7 @@ import {
   GalaxySize,
   generateGalaxy,
 } from "../../utils/galaxy-generator.utils.ts";
+import { usePlanetUpdate } from "../../hooks/planet-update.hook.tsx";
 
 const meta = {
   title: "Game/ArmyMovement",
@@ -54,16 +55,20 @@ const Environment = ({
   scenarioPlanets,
   showMultiple,
   startMovement,
+  updatePlanets,
 }: {
   scenarioPlanets: GalaxyPlanet[];
   showMultiple?: boolean;
   startMovement?: boolean;
+  updatePlanets?: boolean;
 }) => {
   const dispatch = useDispatch();
 
   const armyMovements = useSelector(selectArmyMovements);
   const planets = useSelector(selectPlanets);
   const selectedPlanetId = useSelector(selectSelectedPlanetId);
+
+  usePlanetUpdate(updatePlanets);
 
   useEffect(() => {
     dispatch(reset());
@@ -138,7 +143,7 @@ export const WithGeneratedGalaxy: Story = {
     return (
       <Provider store={store}>
         <StoryBookCanvasWrapper>
-          <Environment scenarioPlanets={planets} />
+          <Environment scenarioPlanets={planets} updatePlanets />
         </StoryBookCanvasWrapper>
       </Provider>
     );

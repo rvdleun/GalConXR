@@ -106,6 +106,7 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
 
     const material = getFactionShipMaterial(faction);
     const newInstancedMesh = new InstancedMesh(geometry, material, armyCount);
+    newInstancedMesh.frustumCulled = false;
 
     for (let i = 0; i < armyCount; i++) {
       object3D.position.copy(fromPlanet.position).lerp(toPlanet.position, 0.5);
@@ -187,6 +188,8 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
       }
     });
 
+    instancedMesh.geometry.computeBoundingBox();
+    instancedMesh.geometry.computeBoundingSphere();
     instancedMesh.instanceMatrix.needsUpdate = true;
   });
 
