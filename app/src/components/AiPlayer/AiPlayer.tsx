@@ -12,7 +12,7 @@ interface AiPlayerProps {
   updateEverySeconds?: number;
 }
 
-let nextUpdate = 0;
+let nextUpdate: number[] = [0, 0, 0, 0];
 export const AiPlayer: FC<AiPlayerProps> = ({
   overrideArmyCount = 0,
   planets,
@@ -20,14 +20,22 @@ export const AiPlayer: FC<AiPlayerProps> = ({
   updateEverySeconds = 2,
 }) => {
   const dispatch = useDispatch();
+  const [shouldMakeMove, setShouldMakeMove] = useState(.8);
 
   useFrame((state, delta) => {
-    nextUpdate -= delta;
-    if (nextUpdate > 0) {
+    nextUpdate[player.faction] -= delta;
+    if (nextUpdate[player.faction] > 0) {
       return;
     }
 
-    nextUpdate = updateEverySeconds;
+    nextUpdate[player.faction] = updateEverySeconds;
+
+    if (Math.random() < shouldMakeMove) {
+      setShouldMakeMove(shouldMakeMove - 0.1);
+      return;
+    }
+
+    setShouldMakeMove(0.6);
 
     const action = determineNextArmyMovementAction(
       player.aiMethod!,
