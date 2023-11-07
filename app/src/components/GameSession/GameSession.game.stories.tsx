@@ -172,3 +172,19 @@ export const AILargeGalaxy: Story = {
         }
     },
 };
+
+export const HasWinner: Story = {
+    render,
+    args: {
+        settings: {
+            galaxySize: GalaxySize.SMALL,
+            players: [
+                {
+                    aiMethod: AiMethod.RANDOM,
+                    faction: 1,
+                    type: PlayerType.AI,
+                }
+            ]
+        }
+    },
+};

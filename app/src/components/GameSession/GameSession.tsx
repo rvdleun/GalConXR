@@ -4,10 +4,11 @@ import { GalaxyPlanet, Player, PlayerType } from '../../models/game.model.ts';
 import { Galaxy } from '../Galaxy/Galaxy.tsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectArmyMovements, selectPlanets, selectSelectedPlanetId } from '../../redux/game/game.selectors.tsx';
-import { reset, setPlanets } from '../../redux/game/game.slice.tsx';
+import { reset, setPlanets, setWinner } from '../../redux/game/game.slice.tsx';
 import { AiPlayer } from '../AiPlayer/AiPlayer.tsx';
 import { ArmyMovement } from '../ArmyMovement/ArmyMovement.tsx';
 import { usePlanetUpdate } from '../../hooks/planet-update.hook.tsx';
+import { useFrame } from '@react-three/fiber';
 
 export interface GameSessionSettings {
     galaxySize: GalaxySize;
@@ -18,6 +19,7 @@ export interface GameSessionProps {
     settings: GameSessionSettings
 }
 
+let checkForWinner = 0;
 export const GameSession: FC<GameSessionProps> = ({ settings }) => {
     const dispatch = useDispatch();
     const armyMovements = useSelector(selectArmyMovements);
@@ -32,6 +34,28 @@ export const GameSession: FC<GameSessionProps> = ({ settings }) => {
         dispatch(reset());
         dispatch(setPlanets(newPlanets));
     }, []);
+
+    useFrame((state, delta) => {
+        checkForWinner-=delta;
+
+        if (checkForWinner > 0) {
+            return;
+        }
+
+        checkForWinner = 5;
+
+        const eligibleFaction = planets.find(({ faction }) => faction !== 0)?.faction;
+        if (!eligibleFaction) {
+            return;
+        }
+
+        const isWinner = !planets.some(({ faction }) => faction !== 0 && faction !== eligibleFaction);
+        if (!isWinner) {
+            return;
+        }
+
+        dispatch(setWinner(eligibleFaction));
+    });
 
     if (!planets) {
         return;

@@ -6,6 +6,7 @@ export interface GameState {
   armyMovements: ArmyMovementProps[];
   selectedPlanetId?: string;
   planets: GalaxyPlanet[];
+  winner?: number;
 }
 
 const initialState: GameState = {
@@ -74,6 +75,10 @@ const gameSlice = createSlice({
       state.planets = action.payload;
     },
 
+    setWinner(state: GameState, action: PayloadAction<number>) {
+      state.winner = action.payload;
+    },
+
     toggleSelectedPlanetId(state: GameState, action: PayloadAction<string>) {
       if (state.selectedPlanetId === action.payload) {
         state.selectedPlanetId = undefined;
@@ -116,6 +121,7 @@ export const {
   removeArmyMovement,
   reset,
   setPlanets,
+  setWinner,
   toggleSelectedPlanetId,
   updatePlanetArmyCounts,
 } = gameSlice.actions;
