@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { updatePlanetArmyCounts } from "../redux/game/game.slice";
 
-export const usePlanetUpdate = (active: boolean = true) => {
+export const usePlanetUpdate = (active: boolean) => {
   const dispatch = useDispatch();
 
   useEffect(() => {

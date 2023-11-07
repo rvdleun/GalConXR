@@ -145,7 +145,7 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
       return;
     }
 
-    if (armies.length === 0) {
+    if (!armies.some(({ landed }) => !landed)) {
       dispatch(removeArmyMovement(id));
       setRemoved(true);
       return;
@@ -165,8 +165,8 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
         object3D.lookAt(army.path.getPoint(Math.min(1, army.progress + 0.1)));
         object3D.updateMatrix();
 
-        army.position = object3D.position.toArray();
-        army.rotation = object3D.rotation.toArray() as [number, number, number];
+        // army.position = object3D.position.toArray();
+        // army.rotation = object3D.rotation.toArray() as [number, number, number];
 
         const landed = object3D.position.distanceTo(destination.position) < 0.1;
         object3D.visible = !landed;
