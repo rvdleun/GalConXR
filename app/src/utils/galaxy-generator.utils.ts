@@ -96,7 +96,37 @@ function assignOnOppositeSides(planets: GalaxyPlanet[], factions: number, galaxy
   determineGalaxyPlanetPositions(planets);
 }
 
-export function assignPlanetsToPlayers(planets: GalaxyPlanet[], factions: number, galaxySize: number) {
-  assignOnOppositeSides(planets, factions, galaxySize);
+function assignInLargeGalaxy(planets: GalaxyPlanet[], factions: number) {
+  for(let i = 1; i < factions + 1; i++) {
+    let xy: number[] = [];
+    if (i === 1) {
+      xy = [0, 3];
+    } else if (i === 2 && factions % 2 === 0) {
+      xy = [18, 3];
+    } else if (i === 3 && factions % 2 === 0) {
+      xy = [9, 0];
+    } else if (i === 4) {
+      xy = [27, 6];
+    } else if (i === 2 && factions % 2 !== 0) {
+      xy = [12, 3];
+    } else if (i === 3 && factions % 2 !== 0) {
+      xy = [24, 3];
+    } else {
+      return;
+    }
+
+    const planet: GalaxyPlanet = generatePlanet(xy[0], xy[1], `player-planet-${i}`);
+    setupPlanetForFaction(planet, i);
+    planets.push(planet);
+  }
+
+  determineGalaxyPlanetPositions(planets);
 }
 
+export function assignPlanetsToPlayers(planets: GalaxyPlanet[], factions: number, galaxySize: number) {
+  if (galaxySize === GalaxySize.LARGE) {
+    assignInLargeGalaxy(planets, factions);
+  } else {
+    assignOnOppositeSides(planets, factions, galaxySize);
+  }
+}

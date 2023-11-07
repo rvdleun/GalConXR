@@ -64,6 +64,37 @@ export const PlayerMediumGalaxy: Story = {
     },
 };
 
+export const PlayerLargeGalaxy: Story = {
+    render,
+    args: {
+        settings: {
+            galaxySize: GalaxySize.LARGE,
+            players: [
+                {
+                    aiMethod: AiMethod.RANDOM,
+                    faction: 1,
+                    type: PlayerType.HUMAN,
+                },
+                {
+                    aiMethod: AiMethod.RANDOM,
+                    faction: 2,
+                    type: PlayerType.AI,
+                },
+                {
+                    aiMethod: AiMethod.RANDOM,
+                    faction: 3,
+                    type: PlayerType.AI,
+                },
+                {
+                    aiMethod: AiMethod.RANDOM,
+                    faction: 4,
+                    type: PlayerType.AI,
+                }
+            ]
+        }
+    },
+};
+
 export const AISmallGalaxy: Story = {
     render,
     args: {
@@ -104,6 +135,37 @@ export const AIMediumGalaxy: Story = {
                 {
                     aiMethod: AiMethod.RANDOM,
                     faction: 3,
+                    type: PlayerType.AI,
+                }
+            ]
+        }
+    },
+};
+
+export const AILargeGalaxy: Story = {
+    render,
+    args: {
+        settings: {
+            galaxySize: GalaxySize.LARGE,
+            players: [
+                {
+                    aiMethod: AiMethod.RANDOM,
+                    faction: 1,
+                    type: PlayerType.AI,
+                },
+                {
+                    aiMethod: AiMethod.RANDOM,
+                    faction: 2,
+                    type: PlayerType.AI,
+                },
+                {
+                    aiMethod: AiMethod.RANDOM,
+                    faction: 3,
+                    type: PlayerType.AI,
+                },
+                {
+                    aiMethod: AiMethod.RANDOM,
+                    faction: 4,
                     type: PlayerType.AI,
                 }
             ]
