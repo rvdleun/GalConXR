@@ -1,11 +1,11 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { StorybookScreenWrapper } from "../../StorybookScreenWrapper";
-import { Button } from "../Button/Button";
+import { Label } from "./Label";
 
 const meta = {
-  title: "Screen/Atoms/Button",
-  component: Button,
-} satisfies Meta<typeof Button>;
+  title: "Screen/Atoms/Label",
+  component: Label,
+} satisfies Meta<typeof Label>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -13,14 +13,12 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   render: (props) => (
     <StorybookScreenWrapper height={320} width={320}>
-      <Button {...props} />
+      <Label {...props} />
     </StorybookScreenWrapper>
   ),
   args: {
     text: "Test",
-    onClick: () => alert("OnClick"),
-    x: 10,
-    y: 10,
-    width: 300,
+    x: 160,
+    y: 50,
   },
 };

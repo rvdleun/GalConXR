@@ -15,6 +15,7 @@ export type EventListenerEventData = {
 export type EventListenerFunction = (event: EventListenerEventData) => void;
 
 export interface ScreenClickEvent {
+  executed?: boolean;
   x: number;
   y: number;
 }
@@ -30,14 +31,18 @@ export interface ScreenProps extends PropsWithChildren {
 interface ScreenContextProps {
   addEventListener: (func: EventListenerFunction) => void;
   context: CanvasRenderingContext2D;
+  height: number;
   onUpdate: () => void;
   removeEventListener: (func: EventListenerFunction) => void;
+  width: number;
 }
 const defaultScreenContextValue: ScreenContextProps = {
   addEventListener: () => {},
   context: document.createElement("canvas").getContext("2d")!,
+  height: 0,
   onUpdate: () => {},
   removeEventListener: () => {},
+  width: 0
 };
 export const ScreenContext = createContext<ScreenContextProps>(
   defaultScreenContextValue,
@@ -48,7 +53,7 @@ export const Screen: FC<ScreenProps> = ({
   clickEvent,
   height,
   onCanvasCreated,
-  onUpdate,
+  onUpdate = () => {},
   width,
 }) => {
   const [contextData, setContextData] = useState<ScreenContextProps>(
@@ -60,11 +65,11 @@ export const Screen: FC<ScreenProps> = ({
 
   useEffect(() => {
     const addEventListener = (func: EventListenerFunction) => {
-      setEventListeners([...eventListeners, func]);
+      setEventListeners(listeners => ([...listeners, func]));
     };
 
     const removeEventListener = (func: EventListenerFunction) => {
-      setEventListeners(eventListeners.filter((listener) => listener !== func));
+      setEventListeners(listeners => listeners.filter((listener) => listener !== func));
     };
 
     const canvas = document.createElement("canvas");
@@ -78,22 +83,24 @@ export const Screen: FC<ScreenProps> = ({
     setContextData({
       addEventListener,
       context,
+      height,
       onUpdate,
       removeEventListener,
+      width
     });
 
     onCanvasCreated(canvas);
   }, []);
 
   useEffect(() => {
-    if (!clickEvent) {
+    if (!clickEvent || clickEvent.executed) {
       return;
     }
 
     const { x, y } = clickEvent;
     eventListeners.forEach((listener) => listener({ type: "click", x, y }));
-    console.log("Click", clickEvent);
-  }, [clickEvent]);
+    clickEvent.executed = true;
+  }, [clickEvent, eventListeners]);
 
   if (!contextData) {
     return null;

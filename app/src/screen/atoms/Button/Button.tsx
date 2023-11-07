@@ -20,7 +20,8 @@ function clearButton(
   context: CanvasRenderingContext2D,
   { x, y, width = 60 }: ButtonProps,
 ) {
-  context.clearRect(x, y, width, height);
+  context.fillStyle = ThemePalette.dark;
+  context.fillRect(x - 5, y - 5, width + 10, height + 10);
 }
 
 function drawButton(
@@ -52,7 +53,6 @@ export const Button: FC<ButtonProps> = (props) => {
       }
 
       props.onClick && props.onClick();
-      console.log(data);
     };
 
     addEventListener(handleEvent);
