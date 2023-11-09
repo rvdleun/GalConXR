@@ -21,7 +21,7 @@ function drawLabel(
   context: CanvasRenderingContext2D,
   { text, x, y }: LabelProps,
 ) {
-  context.fillStyle = ThemePalette.success;
+  context.fillStyle = ThemePalette.light;
   context.textAlign = "center";
   context.textBaseline = "middle";
   context.font = "bold 48px serif";

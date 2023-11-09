@@ -19,6 +19,7 @@ export const ScreenPlane: FC<ScreenPlaneProps> = ({
 }) => {
   const [canvas, setCanvas] = useState<HTMLCanvasElement>();
   const [clickEvent, setClickEvent] = useState<ScreenClickEvent>();
+  const [hoverEvent, setHoverEvent] = useState<ScreenClickEvent>();
   const [texture, setTexture] = useState<VideoTexture>();
 
   const handleCanvasCreated = (canvas: HTMLCanvasElement) => {
@@ -54,12 +55,23 @@ export const ScreenPlane: FC<ScreenPlaneProps> = ({
     setClickEvent({ x, y });
   };
 
+  const handleMove = ({ intersections }) => {
+    if (!intersections[0]?.uv) {
+      return;
+    }
+
+    const { uv } = intersections[0];
+    const x = uv.x * width;
+    const y = (1 - uv.y) * height;
+    setHoverEvent({ x, y });
+  }
+
   const handleUpdate = () => {
     if (!texture) {
       return;
     }
 
-    texture.needsUpdate = true;
+    // texture.needsUpdate = true;
   };
 
   useEffect(() => {
@@ -72,14 +84,15 @@ export const ScreenPlane: FC<ScreenPlaneProps> = ({
   }, [canvas]);
 
   return (
-    <Interactive onSelect={handleClick}>
+    <Interactive onMove={handleMove} onSelect={handleClick}>
       <object3D {...object3DProps}>
-        <mesh scale={[width / 1000, height / 1000, 1]} onClick={handleClick}>
+        <mesh scale={[width / 1000, height / 1000, 1]} onClick={handleClick} onPointerMove={handleMove}>
           <planeGeometry />
           {texture && <meshBasicMaterial map={texture} side={DoubleSide} />}
         </mesh>
         <Screen
           clickEvent={clickEvent}
+          hoverEvent={hoverEvent}
           height={height}
           onCanvasCreated={handleCanvasCreated}
           onUpdate={handleUpdate}

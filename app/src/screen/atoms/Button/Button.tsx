@@ -1,7 +1,6 @@
-import { FC, useContext, useEffect } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import {
   EventListenerEventData,
-  EventListenerFunction,
   ScreenContext,
 } from "../../Screen";
 import { cursorWithinBoundaries } from "../../Screen.utils";
@@ -27,14 +26,15 @@ function clearButton(
 function drawButton(
   context: CanvasRenderingContext2D,
   { text, x, y, width = 60 }: ButtonProps,
+  invertColors = false
 ) {
-  context.fillStyle = ThemePalette.dark;
+  context.fillStyle = invertColors ? ThemePalette.light : ThemePalette.dark;
   context.fillRect(x, y, width, height);
   context.lineWidth = 5;
-  context.strokeStyle = ThemePalette.success;
+  context.strokeStyle = invertColors ? ThemePalette.dark : ThemePalette.light;
   context.strokeRect(x, y, width, height);
 
-  context.fillStyle = ThemePalette.success;
+  context.fillStyle = invertColors ? ThemePalette.dark : ThemePalette.light;
   context.textAlign = "center";
   context.textBaseline = "middle";
   context.font = "bold 48px serif";
@@ -44,19 +44,21 @@ function drawButton(
 export const Button: FC<ButtonProps> = (props) => {
   const { addEventListener, context, onUpdate, removeEventListener } =
     useContext(ScreenContext);
+  const [isHovering, setIsHovering] = useState(false);
 
   const width = props.width!;
   useEffect(() => {
     const handleEvent = (data: EventListenerEventData) => {
-      if (!cursorWithinBoundaries(data, { ...props, width, height })) {
-        return;
-      }
+      const withinBoundaries = cursorWithinBoundaries(data, { ...props, width, height });
+      setIsHovering(withinBoundaries);
 
-      props.onClick && props.onClick();
+      if (data.type === "click" && withinBoundaries) {
+        props.onClick && props.onClick();
+      }
     };
 
     addEventListener(handleEvent);
-    drawButton(context, props);
+    drawButton(context, props, isHovering);
     onUpdate();
 
     return () => {
@@ -65,6 +67,11 @@ export const Button: FC<ButtonProps> = (props) => {
       onUpdate();
     };
   }, [context, props]);
+
+  useEffect(() => {
+    console.log(isHovering);
+    drawButton(context, props, isHovering);
+  }, [isHovering]);
 
   return null;
 };

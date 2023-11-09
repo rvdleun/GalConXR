@@ -13,6 +13,10 @@ export const StorybookScreenWrapper: FC<StorybookScreenWrapperProps> = (
     x: number;
     y: number;
   }>();
+  const [latestHoverEvent, setLatestHoverEvent] = useState<{
+    x: number;
+    y: number;
+  }>();
 
   const ref = useRef<HTMLDivElement>(document.createElement("div"));
 
@@ -25,6 +29,14 @@ export const StorybookScreenWrapper: FC<StorybookScreenWrapperProps> = (
       setLatestClickEvent({ x, y });
     });
 
+    newCanvas.addEventListener("pointermove", (e) => {
+      const rect = newCanvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      setLatestHoverEvent({ x, y });
+    });
+
     newCanvas.style.border = "solid 1px black";
     ref.current!.appendChild(newCanvas);
   };
@@ -35,7 +47,9 @@ export const StorybookScreenWrapper: FC<StorybookScreenWrapperProps> = (
       <Screen
         {...props}
         clickEvent={latestClickEvent}
+        hoverEvent={latestHoverEvent}
         onCanvasCreated={handleCanvasCreated}
+        onUpdate={() => {}}
       />
     </>
   );

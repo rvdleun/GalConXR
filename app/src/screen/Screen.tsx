@@ -8,7 +8,7 @@ import {
 import { ThemePalette } from "../utils/theme.utils";
 
 export type EventListenerEventData = {
-  type: "click" | "move";
+  type: "click" | "hover";
   x: number;
   y: number;
 };
@@ -22,6 +22,7 @@ export interface ScreenClickEvent {
 
 export interface ScreenProps extends PropsWithChildren {
   clickEvent?: ScreenClickEvent;
+  hoverEvent?: ScreenClickEvent;
   height: number;
   onCanvasCreated: (canvas: HTMLCanvasElement) => void;
   onUpdate: () => void;
@@ -51,6 +52,7 @@ export const ScreenContext = createContext<ScreenContextProps>(
 export const Screen: FC<ScreenProps> = ({
   children,
   clickEvent,
+  hoverEvent,
   height,
   onCanvasCreated,
   onUpdate = () => {},
@@ -101,6 +103,16 @@ export const Screen: FC<ScreenProps> = ({
     eventListeners.forEach((listener) => listener({ type: "click", x, y }));
     clickEvent.executed = true;
   }, [clickEvent, eventListeners]);
+
+  useEffect(() => {
+    if (!hoverEvent || hoverEvent.executed) {
+      return;
+    }
+
+    const { x, y } = hoverEvent;
+    eventListeners.forEach((listener) => listener({ type: "hover", x, y }));
+    hoverEvent.executed = true;
+  }, [hoverEvent, eventListeners]);
 
   if (!contextData) {
     return null;
