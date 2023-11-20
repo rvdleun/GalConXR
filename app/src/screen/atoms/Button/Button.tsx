@@ -1,8 +1,5 @@
 import { FC, useContext, useEffect, useState } from "react";
-import {
-  EventListenerEventData,
-  ScreenContext,
-} from "../../Screen";
+import { EventListenerEventData, ScreenContext } from "../../Screen";
 import { cursorWithinBoundaries } from "../../Screen.utils";
 import { ThemePalette } from "../../../utils/theme.utils";
 
@@ -26,7 +23,7 @@ function clearButton(
 function drawButton(
   context: CanvasRenderingContext2D,
   { text, x, y, width = 60 }: ButtonProps,
-  invertColors = false
+  invertColors = false,
 ) {
   context.fillStyle = invertColors ? ThemePalette.light : ThemePalette.dark;
   context.fillRect(x, y, width, height);
@@ -49,7 +46,11 @@ export const Button: FC<ButtonProps> = (props) => {
   const width = props.width!;
   useEffect(() => {
     const handleEvent = (data: EventListenerEventData) => {
-      const withinBoundaries = cursorWithinBoundaries(data, { ...props, width, height });
+      const withinBoundaries = cursorWithinBoundaries(data, {
+        ...props,
+        width,
+        height,
+      });
       setIsHovering(withinBoundaries);
 
       if (data.type === "click" && withinBoundaries) {

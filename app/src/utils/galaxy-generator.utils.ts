@@ -31,8 +31,12 @@ export function generateGalaxy(size: GalaxySize): GalaxyPlanet[] {
     const x = 1 + Math.floor(Math.random() * (size - 2));
     const y = Math.floor(Math.random() * 5) + 1;
 
-    if (planets.some(({ x: planetX, y: planetY }) => x === planetX && y === planetY)) {
-        continue;
+    if (
+      planets.some(
+        ({ x: planetX, y: planetY }) => x === planetX && y === planetY,
+      )
+    ) {
+      continue;
     }
     // for (let i = x - 1; i <= x + 1; i++) {
     //   const xyTaken = planets.some(
@@ -63,7 +67,7 @@ function setupPlanetForFaction(planet: GalaxyPlanet, factionId: number) {
 }
 
 function assignRandomly(planets: GalaxyPlanet[], factions: number) {
-  for(let factionId = 1; factionId < factions + 1; factionId++) {
+  for (let factionId = 1; factionId < factions + 1; factionId++) {
     const planet = planets.find(({ faction }) => faction === 0);
     if (planet) {
       setupPlanetForFaction(planet, factionId);
@@ -73,8 +77,12 @@ function assignRandomly(planets: GalaxyPlanet[], factions: number) {
   }
 }
 
-function assignOnOppositeSides(planets: GalaxyPlanet[], factions: number, galaxySize: number) {
-  for(let i = 1; i < factions + 1; i++) {
+function assignOnOppositeSides(
+  planets: GalaxyPlanet[],
+  factions: number,
+  galaxySize: number,
+) {
+  for (let i = 1; i < factions + 1; i++) {
     let xy: number[] = [];
     if (i === 1) {
       xy = [0, 3];
@@ -88,7 +96,11 @@ function assignOnOppositeSides(planets: GalaxyPlanet[], factions: number, galaxy
       return;
     }
 
-    const planet: GalaxyPlanet = generatePlanet(xy[0], xy[1], `player-planet-${i}`);
+    const planet: GalaxyPlanet = generatePlanet(
+      xy[0],
+      xy[1],
+      `player-planet-${i}`,
+    );
     setupPlanetForFaction(planet, i);
     planets.push(planet);
   }
@@ -97,7 +109,7 @@ function assignOnOppositeSides(planets: GalaxyPlanet[], factions: number, galaxy
 }
 
 function assignInLargeGalaxy(planets: GalaxyPlanet[], factions: number) {
-  for(let i = 1; i < factions + 1; i++) {
+  for (let i = 1; i < factions + 1; i++) {
     let xy: number[] = [];
     if (i === 1) {
       xy = [0, 3];
@@ -115,7 +127,11 @@ function assignInLargeGalaxy(planets: GalaxyPlanet[], factions: number) {
       return;
     }
 
-    const planet: GalaxyPlanet = generatePlanet(xy[0], xy[1], `player-planet-${i}`);
+    const planet: GalaxyPlanet = generatePlanet(
+      xy[0],
+      xy[1],
+      `player-planet-${i}`,
+    );
     setupPlanetForFaction(planet, i);
     planets.push(planet);
   }
@@ -123,7 +139,11 @@ function assignInLargeGalaxy(planets: GalaxyPlanet[], factions: number) {
   determineGalaxyPlanetPositions(planets);
 }
 
-export function assignPlanetsToPlayers(planets: GalaxyPlanet[], factions: number, galaxySize: number) {
+export function assignPlanetsToPlayers(
+  planets: GalaxyPlanet[],
+  factions: number,
+  galaxySize: number,
+) {
   if (galaxySize === GalaxySize.LARGE) {
     assignInLargeGalaxy(planets, factions);
   } else {

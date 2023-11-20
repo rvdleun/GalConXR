@@ -22,7 +22,7 @@ import { getFactionShipMaterial } from "../../utils/faction.utils.tsx";
 import { useAppFrame } from "../../hooks/app-frame.hook.tsx";
 
 const object3D = new Object3D();
-object3D.position.set(Math.infinity, Math.infinity, Math.infinity);
+object3D.position.setScalar(99999);
 object3D.scale.set(0.0175, 0.025, 0.0625);
 export const ARMY_UNIT_DISTANCE = 0.05;
 

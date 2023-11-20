@@ -15,7 +15,13 @@ export const Primary: Story = {
   render: (props) => (
     <StoryBookCanvasWrapper>
       <ScreenPlane {...props}>
-        <Button onClick={() => alert("Click test")} x={10} y={10} width={230} text="Click me" />
+        <Button
+          onClick={() => alert("Click test")}
+          x={10}
+          y={10}
+          width={230}
+          text="Click me"
+        />
       </ScreenPlane>
     </StoryBookCanvasWrapper>
   ),

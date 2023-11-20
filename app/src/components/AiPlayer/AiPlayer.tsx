@@ -20,7 +20,7 @@ export const AiPlayer: FC<AiPlayerProps> = ({
   updateEverySeconds = 2,
 }) => {
   const dispatch = useDispatch();
-  const [shouldMakeMove, setShouldMakeMove] = useState(.8);
+  const [shouldMakeMove, setShouldMakeMove] = useState(0.8);
 
   useAppFrame((state, delta) => {
     nextUpdate[player.faction] -= delta;

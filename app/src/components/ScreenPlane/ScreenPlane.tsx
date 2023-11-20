@@ -64,7 +64,7 @@ export const ScreenPlane: FC<ScreenPlaneProps> = ({
     const x = uv.x * width;
     const y = (1 - uv.y) * height;
     setHoverEvent({ x, y });
-  }
+  };
 
   const handleUpdate = () => {
     if (!texture) {
@@ -86,7 +86,11 @@ export const ScreenPlane: FC<ScreenPlaneProps> = ({
   return (
     <Interactive onMove={handleMove} onSelect={handleClick}>
       <object3D {...object3DProps}>
-        <mesh scale={[width / 1000, height / 1000, 1]} onClick={handleClick} onPointerMove={handleMove}>
+        <mesh
+          scale={[width / 1000, height / 1000, 1]}
+          onClick={handleClick}
+          onPointerMove={handleMove}
+        >
           <planeGeometry />
           {texture && <meshBasicMaterial map={texture} side={DoubleSide} />}
         </mesh>

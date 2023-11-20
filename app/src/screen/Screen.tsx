@@ -43,7 +43,7 @@ const defaultScreenContextValue: ScreenContextProps = {
   height: 0,
   onUpdate: () => {},
   removeEventListener: () => {},
-  width: 0
+  width: 0,
 };
 export const ScreenContext = createContext<ScreenContextProps>(
   defaultScreenContextValue,
@@ -67,11 +67,13 @@ export const Screen: FC<ScreenProps> = ({
 
   useEffect(() => {
     const addEventListener = (func: EventListenerFunction) => {
-      setEventListeners(listeners => ([...listeners, func]));
+      setEventListeners((listeners) => [...listeners, func]);
     };
 
     const removeEventListener = (func: EventListenerFunction) => {
-      setEventListeners(listeners => listeners.filter((listener) => listener !== func));
+      setEventListeners((listeners) =>
+        listeners.filter((listener) => listener !== func),
+      );
     };
 
     const canvas = document.createElement("canvas");
@@ -88,7 +90,7 @@ export const Screen: FC<ScreenProps> = ({
       height,
       onUpdate,
       removeEventListener,
-      width
+      width,
     });
 
     onCanvasCreated(canvas);

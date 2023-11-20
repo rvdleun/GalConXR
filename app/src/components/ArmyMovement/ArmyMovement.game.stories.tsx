@@ -59,7 +59,7 @@ const Environment = ({
   startMovement,
   updatePlanets,
 }: {
-  deltaModifier?: number,
+  deltaModifier?: number;
   scenarioPlanets: GalaxyPlanet[];
   showMultiple?: boolean;
   startMovement?: boolean;
@@ -125,7 +125,11 @@ export const HalfSpeed: Story = {
   render: () => (
     <Provider store={store}>
       <StoryBookCanvasWrapper>
-        <Environment deltaModifier={0.5} scenarioPlanets={planetsData} startMovement />
+        <Environment
+          deltaModifier={0.5}
+          scenarioPlanets={planetsData}
+          startMovement
+        />
       </StoryBookCanvasWrapper>
     </Provider>
   ),

@@ -17,16 +17,20 @@ export const Primary: Story = {
     const [settings, setSettings] = useState<GameSettings>(props.settings);
 
     return (
-        <StorybookScreenWrapper height={200} width={640}>
-            <GameSettingsMenu {...props} onNewSettings={setSettings} settings={settings}/>
-        </StorybookScreenWrapper>
-    )
+      <StorybookScreenWrapper height={200} width={640}>
+        <GameSettingsMenu
+          {...props}
+          onNewSettings={setSettings}
+          settings={settings}
+        />
+      </StorybookScreenWrapper>
+    );
   },
   args: {
     onNewSettings: console.log,
     settings: {
-        galaxySize: GalaxySize.SMALL,
-        numberOfPlayers: 2
+      galaxySize: GalaxySize.SMALL,
+      numberOfPlayers: 2,
     },
     x: 10,
     y: 10,

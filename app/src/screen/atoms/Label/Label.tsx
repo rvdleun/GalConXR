@@ -14,7 +14,7 @@ function clearLabel(
 ) {
   const { width } = context.measureText(text);
   context.fillStyle = ThemePalette.dark;
-  context.fillRect(x - (width / 2), y - 24, width, 48);
+  context.fillRect(x - width / 2, y - 24, width, 48);
 }
 
 function drawLabel(
