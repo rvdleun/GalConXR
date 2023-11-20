@@ -1,8 +1,8 @@
-import { FC, PropsWithChildren, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Screen, ScreenClickEvent, ScreenProps } from "../../screen/Screen";
 import { Interactive, XRInteractionHandler } from "@react-three/xr";
-import { Object3DProps, ThreeEvent, useFrame } from "@react-three/fiber";
-import { CanvasTexture, DoubleSide, VideoTexture } from "three";
+import { Object3DProps, ThreeEvent } from "@react-three/fiber";
+import { DoubleSide, VideoTexture } from "three";
 
 interface ScreenPlaneProps
   extends Omit<ScreenProps, "onCanvasCreated" | "onUpdate">,

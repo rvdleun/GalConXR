@@ -1,4 +1,3 @@
-import { useFrame } from "@react-three/fiber";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { updatePlanetArmyCounts } from "../redux/game/game.slice";

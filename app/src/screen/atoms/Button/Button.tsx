@@ -69,7 +69,6 @@ export const Button: FC<ButtonProps> = (props) => {
   }, [context, props]);
 
   useEffect(() => {
-    console.log(isHovering);
     drawButton(context, props, isHovering);
   }, [isHovering]);
 

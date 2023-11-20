@@ -22,6 +22,7 @@ import {
   generateGalaxy,
 } from "../../utils/galaxy-generator.utils.ts";
 import { usePlanetUpdate } from "../../hooks/planet-update.hook.tsx";
+import { useDeltaModifier } from "../../hooks/delta-modifer.hook.tsx";
 
 const meta = {
   title: "Game/ArmyMovement",
@@ -52,11 +53,13 @@ const planetsData: GalaxyPlanet[] = [
 determineGalaxyPlanetPositions(planetsData);
 
 const Environment = ({
+  deltaModifier = 1,
   scenarioPlanets,
   showMultiple,
   startMovement,
   updatePlanets,
 }: {
+  deltaModifier?: number,
   scenarioPlanets: GalaxyPlanet[];
   showMultiple?: boolean;
   startMovement?: boolean;
@@ -67,8 +70,13 @@ const Environment = ({
   const armyMovements = useSelector(selectArmyMovements);
   const planets = useSelector(selectPlanets);
   const selectedPlanetId = useSelector(selectSelectedPlanetId);
+  const { setDeltaModifier } = useDeltaModifier();
 
   usePlanetUpdate(updatePlanets);
+
+  useEffect(() => {
+    setDeltaModifier(deltaModifier);
+  }, [deltaModifier]);
 
   useEffect(() => {
     dispatch(reset());
@@ -108,6 +116,16 @@ export const Automatic: Story = {
     <Provider store={store}>
       <StoryBookCanvasWrapper>
         <Environment scenarioPlanets={planetsData} startMovement />
+      </StoryBookCanvasWrapper>
+    </Provider>
+  ),
+};
+
+export const HalfSpeed: Story = {
+  render: () => (
+    <Provider store={store}>
+      <StoryBookCanvasWrapper>
+        <Environment deltaModifier={0.5} scenarioPlanets={planetsData} startMovement />
       </StoryBookCanvasWrapper>
     </Provider>
   ),

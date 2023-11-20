@@ -1,9 +1,9 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { GalaxyPlanet, Player } from "../../models/game.model";
 import { useDispatch } from "react-redux";
 import { determineNextArmyMovementAction } from "../../utils/ai-player.utils";
 import { addArmyMovement } from "../../redux/game/game.slice";
-import { useFrame } from "@react-three/fiber";
+import { useAppFrame } from "../../hooks/app-frame.hook";
 
 interface AiPlayerProps {
   overrideArmyCount?: number;
@@ -22,7 +22,7 @@ export const AiPlayer: FC<AiPlayerProps> = ({
   const dispatch = useDispatch();
   const [shouldMakeMove, setShouldMakeMove] = useState(.8);
 
-  useFrame((state, delta) => {
+  useAppFrame((state, delta) => {
     nextUpdate[player.faction] -= delta;
     if (nextUpdate[player.faction] > 0) {
       return;

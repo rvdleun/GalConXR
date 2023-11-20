@@ -1,4 +1,4 @@
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import { Canvas, useLoader } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { BackSide } from "three";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
@@ -11,6 +11,7 @@ import { FC, PropsWithChildren, useState } from "react";
 import { useGameHeight } from "../src/hooks/game-height.hook.tsx";
 import { ScreenPlane } from "../src/components/ScreenPlane/ScreenPlane.tsx";
 import { Button } from "../src/screen/atoms/Button/Button.tsx";
+import { useAppFrame } from "../src/hooks/app-frame.hook.tsx";
 
 interface EnvironmentProps extends PropsWithChildren {
   onResetClick: () => void;
@@ -21,7 +22,7 @@ const Environment: FC<EnvironmentProps> = ({ children, onResetClick }) => {
   const { height } = useGameHeight();
     const { isPresenting } = useXR();
 
-  useFrame(() => {
+  useAppFrame(() => {
     TWEEN.update();
   });
 

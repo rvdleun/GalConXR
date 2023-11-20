@@ -1,11 +1,12 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { GameScene } from "./scenes/game/GameScene.tsx";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import "./App.css";
 import * as TWEEN from "@tweenjs/tween.js";
+import { useAppFrame } from "./hooks/app-frame.hook.tsx";
 
 function Environment() {
-  useFrame(() => {
+  useAppFrame(() => {
     TWEEN.update();
   });
 

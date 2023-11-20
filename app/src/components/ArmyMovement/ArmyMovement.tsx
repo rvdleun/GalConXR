@@ -8,29 +8,23 @@ import {
   Group,
   InstancedMesh,
   Matrix4,
-  MeshBasicMaterial,
   Object3D,
-  Quaternion,
   Vector3,
 } from "three";
 import { useDispatch } from "react-redux";
-import { ArmyUnit, ArmyUnitRenderData } from "../ArmyUnit/ArmyUnit.tsx";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useThree } from "@react-three/fiber";
 import {
   landArmies,
   removeArmyMovement,
 } from "../../redux/game/game.slice.tsx";
 import { addRandomValueToAxes } from "../../utils/vector3.utils.ts";
 import { getFactionShipMaterial } from "../../utils/faction.utils.tsx";
+import { useAppFrame } from "../../hooks/app-frame.hook.tsx";
 
 const object3D = new Object3D();
 object3D.position.set(Math.infinity, Math.infinity, Math.infinity);
 object3D.scale.set(0.0175, 0.025, 0.0625);
 export const ARMY_UNIT_DISTANCE = 0.05;
-
-export interface ArmyUnitProps {
-  armyUnits: ArmyUnitRenderData[];
-}
 
 const geometry = new ConeGeometry();
 const matrix = new Matrix4();
@@ -53,11 +47,12 @@ function CurveVisualisation({ curve }: { curve: Curve<Vector3> }) {
   );
 }
 
-export interface ArmyUnitData extends ArmyUnitRenderData {
+export interface ArmyUnitData {
   delay: number;
   landed?: boolean;
   path: Curve<Vector3>;
   progress: number;
+  visible?: boolean;
 }
 
 export interface ArmyMovementProps {
@@ -140,7 +135,7 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
     };
   }, []);
 
-  useFrame((state, delta) => {
+  useAppFrame((state, delta) => {
     if (!destination || !instancedMesh || removed) {
       return;
     }
@@ -164,9 +159,6 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
         object3D.position.set(point.x, point.y, point.z);
         object3D.lookAt(army.path.getPoint(Math.min(1, army.progress + 0.1)));
         object3D.updateMatrix();
-
-        // army.position = object3D.position.toArray();
-        // army.rotation = object3D.rotation.toArray() as [number, number, number];
 
         const landed = object3D.position.distanceTo(destination.position) < 0.1;
         object3D.visible = !landed;
