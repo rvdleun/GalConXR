@@ -9,6 +9,7 @@ import { Galaxy } from "../Galaxy/Galaxy.tsx";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectArmyMovements,
+  selectDeltaModifier,
   selectPlanets,
   selectSelectedPlanetId,
 } from "../../redux/game/game.selectors.tsx";
@@ -17,6 +18,8 @@ import { AiPlayer } from "../AiPlayer/AiPlayer.tsx";
 import { ArmyMovement } from "../ArmyMovement/ArmyMovement.tsx";
 import { usePlanetUpdate } from "../../hooks/planet-update.hook.tsx";
 import { useFrame } from "@react-three/fiber";
+import { useDeltaModifier } from "../../hooks/delta-modifer.hook.tsx";
+import { useKeyboardControls } from "../../hooks/keyboard-controls.tsx";
 
 export interface GameSessionSettings {
   galaxySize: GalaxySize;
@@ -30,9 +33,14 @@ export interface GameSessionProps {
 let checkForWinner = 0;
 export const GameSession: FC<GameSessionProps> = ({ settings }) => {
   const dispatch = useDispatch();
+  const { setDeltaModifier } = useDeltaModifier();
+
   const armyMovements = useSelector(selectArmyMovements);
+  const deltaModifier = useSelector(selectDeltaModifier);
   const planets = useSelector(selectPlanets);
   const selectedPlanetId = useSelector(selectSelectedPlanetId);
+
+  useKeyboardControls();
   usePlanetUpdate();
 
   useEffect(() => {
@@ -46,6 +54,10 @@ export const GameSession: FC<GameSessionProps> = ({ settings }) => {
     dispatch(reset());
     dispatch(setPlanets(newPlanets));
   }, []);
+
+  useEffect(() => {
+    setDeltaModifier(deltaModifier);
+  }, [deltaModifier]);
 
   useFrame((state, delta) => {
     checkForWinner -= delta;
