@@ -1,11 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ArmyMovement, GalaxyPlanet } from "../../models/game.model.ts";
 import { ArmyMovementProps } from "../../components/ArmyMovement/ArmyMovement.tsx";
-import { DELTA_MODIFIER_PAUSED } from "./game.constants.ts";
 
 export interface GameState {
   armyMovements: ArmyMovementProps[];
-  deltaModifier: number;
   selectedPlanetId?: string;
   planets: GalaxyPlanet[];
   winner?: number;
@@ -13,7 +11,6 @@ export interface GameState {
 
 const initialState: GameState = {
   armyMovements: [],
-  deltaModifier: 1,
   selectedPlanetId: undefined,
   planets: [],
 };
@@ -37,10 +34,6 @@ const gameSlice = createSlice({
         armyCount: action.payload.armyCount,
         faction: from.faction,
       });
-    },
-
-    freezeGame(state: GameState) {
-      state.deltaModifier = 0;
     },
 
     landArmies(
@@ -68,10 +61,6 @@ const gameSlice = createSlice({
       }
     },
 
-    playGame(state: GameState) {
-      state.deltaModifier = 1;
-    },
-
     removeArmyMovement(state: GameState, action: PayloadAction<number>) {
       state.armyMovements = state.armyMovements.filter(
         ({ id }) => id !== action.payload,
@@ -88,13 +77,6 @@ const gameSlice = createSlice({
 
     setWinner(state: GameState, action: PayloadAction<number>) {
       state.winner = action.payload;
-    },
-
-    togglePauseGame(state) {
-      state.deltaModifier =
-        state.deltaModifier === DELTA_MODIFIER_PAUSED
-          ? 1
-          : DELTA_MODIFIER_PAUSED;
     },
 
     toggleSelectedPlanetId(state: GameState, action: PayloadAction<string>) {
@@ -135,14 +117,11 @@ const gameSlice = createSlice({
 
 export const {
   addArmyMovement,
-  freezeGame,
   landArmies,
-  playGame,
   removeArmyMovement,
   reset,
   setPlanets,
   setWinner,
-  togglePauseGame,
   toggleSelectedPlanetId,
   updatePlanetArmyCounts,
 } = gameSlice.actions;

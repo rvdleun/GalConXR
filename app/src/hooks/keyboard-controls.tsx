@@ -1,15 +1,12 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { togglePauseGame } from "../redux/game/game.slice";
+import {useEffect} from "react";
+import {currentDeltaModifier, DeltaModifier, setCurrentDeltaModifier} from "../utils/delta-modifier.tsx";
 
 export const useKeyboardControls = () => {
-  const dispatch = useDispatch();
-
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
       switch (event.code) {
         case "KeyP":
-          dispatch(togglePauseGame());
+          setCurrentDeltaModifier(currentDeltaModifier === DeltaModifier.NORMAL ? DeltaModifier.PAUSED : DeltaModifier.NORMAL);
           break;
       }
     }

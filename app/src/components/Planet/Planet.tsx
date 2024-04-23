@@ -8,7 +8,6 @@ import { useDispatch } from "react-redux";
 import { toggleSelectedPlanetId } from "../../redux/game/game.slice.tsx";
 import { Interactive, useXR } from "@react-three/xr";
 import { useGameHeight } from "../../hooks/game-height.hook.tsx";
-import { useAppFrame } from "../../hooks/app-frame.hook.tsx";
 
 interface PlanetProps extends Object3DProps {
   armyCount: number;
@@ -57,7 +56,7 @@ export const Planet: FC<PlanetProps> = ({
     setTransition(newTransition);
   }, [faction]);
 
-  useAppFrame(({ camera }) => {
+  useFrame(({ camera }) => {
     if (isPresenting) {
       textRef.current!.getWorldPosition(object3D.position);
       player.children[0].getWorldPosition(vector3);

@@ -12,14 +12,14 @@ import {
   Vector3,
 } from "three";
 import { useDispatch } from "react-redux";
-import { useThree } from "@react-three/fiber";
+import {useFrame, useThree} from "@react-three/fiber";
 import {
   landArmies,
   removeArmyMovement,
 } from "../../redux/game/game.slice.tsx";
 import { addRandomValueToAxes } from "../../utils/vector3.utils.ts";
 import { getFactionShipMaterial } from "../../utils/faction.utils.tsx";
-import { useAppFrame } from "../../hooks/app-frame.hook.tsx";
+import {currentDeltaModifier} from "../../utils/delta-modifier.tsx";
 
 const object3D = new Object3D();
 object3D.position.setScalar(99999);
@@ -135,7 +135,7 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
     };
   }, []);
 
-  useAppFrame((state, delta) => {
+  useFrame((state, delta) => {
     if (!destination || !instancedMesh || removed) {
       return;
     }
@@ -145,6 +145,8 @@ export const ArmyMovement: FC<ArmyMovementProps> = ({
       setRemoved(true);
       return;
     }
+
+    delta*=currentDeltaModifier;
 
     armies.forEach((army, index) => {
       army.delay -= delta;

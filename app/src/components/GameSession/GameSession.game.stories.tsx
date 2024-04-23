@@ -44,7 +44,7 @@ export const PlayerMediumGalaxy: Story = {
   render,
   args: {
     settings: {
-      galaxySize: GalaxySize.SMALL,
+      galaxySize: GalaxySize.MEDIUM,
       players: [
         {
           aiMethod: AiMethod.RANDOM,

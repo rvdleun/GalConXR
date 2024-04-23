@@ -22,7 +22,7 @@ import {
   generateGalaxy,
 } from "../../utils/galaxy-generator.utils.ts";
 import { usePlanetUpdate } from "../../hooks/planet-update.hook.tsx";
-import { useDeltaModifier } from "../../hooks/delta-modifer.hook.tsx";
+import {setCurrentDeltaModifier} from "../../utils/delta-modifier.tsx";
 
 const meta = {
   title: "Game/ArmyMovement",
@@ -70,13 +70,8 @@ const Environment = ({
   const armyMovements = useSelector(selectArmyMovements);
   const planets = useSelector(selectPlanets);
   const selectedPlanetId = useSelector(selectSelectedPlanetId);
-  const { setDeltaModifier } = useDeltaModifier();
 
   usePlanetUpdate(updatePlanets);
-
-  useEffect(() => {
-    setDeltaModifier(deltaModifier);
-  }, [deltaModifier]);
 
   useEffect(() => {
     dispatch(reset());
@@ -97,6 +92,10 @@ const Environment = ({
         dispatch(addArmyMovement({ from: "1", to: "2", armyCount: 5 }));
       }, 4000);
     }
+
+    setCurrentDeltaModifier(deltaModifier);
+
+    return () => setCurrentDeltaModifier(1);
   }, []);
 
   return (

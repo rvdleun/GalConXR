@@ -3,7 +3,8 @@ import { GalaxyPlanet, Player } from "../../models/game.model";
 import { useDispatch } from "react-redux";
 import { determineNextArmyMovementAction } from "../../utils/ai-player.utils";
 import { addArmyMovement } from "../../redux/game/game.slice";
-import { useAppFrame } from "../../hooks/app-frame.hook";
+import {useFrame} from "@react-three/fiber";
+import {currentDeltaModifier} from "../../utils/delta-modifier.tsx";
 
 interface AiPlayerProps {
   overrideArmyCount?: number;
@@ -22,7 +23,9 @@ export const AiPlayer: FC<AiPlayerProps> = ({
   const dispatch = useDispatch();
   const [shouldMakeMove, setShouldMakeMove] = useState(0.8);
 
-  useAppFrame((state, delta) => {
+  useFrame((state, delta) => {
+    delta*=currentDeltaModifier;
+
     nextUpdate[player.faction] -= delta;
     if (nextUpdate[player.faction] > 0) {
       return;
