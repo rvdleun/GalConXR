@@ -12,7 +12,4 @@ in Storybook and there is no playable game yet. The Storybook pages can be
 found online here: https://galconxr.app.leunix.nl/storybook/
 
 ## Credits
-* Spacecraft Speeder by Kenney (https://poly.pizza/m/PbD0M5Y6pS)
-* Space Craft Speeder by Kenney (https://poly.pizza/m/mlQBUQRUpM)
-* Spacecraft Speeder by Kenney (https://poly.pizza/m/U8c6njvFry)
-* Mining Spacecraft by Kenney (https://poly.pizza/m/wJQEGUHttY)
+* Planet textures from texturesforplanets.com (https://www.texturesforplanets.com/texture-packs.shtml)
